@@ -40,16 +40,16 @@ public class PropertiesUtils {
 
 	public static List<String> getStringList(String property, Properties properties) {
 		List<String> strings = new ArrayList<String>();
-		int i = 1;
-		while (true) {
+		// Use an insanely big limit that should never be reached by the user
+		for (int i = 1; i < 999; i++) {
 			String key = property + "." + i;
 			if (properties.containsKey(key)) {
 				strings.add(properties.getProperty(key));
 			} else {
-				return strings;
+				break;
 			}
-			i++;
 		}
+		return strings;
 	}
 	
 	public static int getInt(String property) {
