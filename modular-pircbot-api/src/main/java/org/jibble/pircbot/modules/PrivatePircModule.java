@@ -12,7 +12,7 @@ public interface PrivatePircModule {
 	 * Returns the exact word that a user has to say in a private chat to
 	 * activate this module.
 	 * 
-	 * @return the trigger message of the module
+	 * @return the private trigger message of the module
 	 */
 	String getPrivateTriggerMessage();
 	
