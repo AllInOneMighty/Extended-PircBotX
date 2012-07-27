@@ -45,8 +45,7 @@ public class ChuckNorrisPircModule extends AbstractPircModule implements PublicP
 	}
 
 	@Override
-	public void onTriggerMessage(ExtendedPircBot bot, String channel, String sender, String login, String hostname,
-			String message) {
+	public void onTriggerMessage(ExtendedPircBot bot, String channel, String sender, String login, String hostname) {
 		if (fortunes != null) {
 			int fortune = RANDOM.nextInt(fortunes.size());
 			for (String line : fortunes.get(fortune)) {

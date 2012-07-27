@@ -95,7 +95,7 @@ public class ModularPircBot extends ExtendedPircBot {
 				PublicPircModule publicModule = (PublicPircModule) module;
 				String triggerMessage = "!" + publicModule.getTriggerMessage();
 				if (message.equals(triggerMessage)) {
-					publicModule.onTriggerMessage(this, channel, sender, login, hostname, message);
+					publicModule.onTriggerMessage(this, channel, sender, login, hostname);
 				}
 			}
 		}
