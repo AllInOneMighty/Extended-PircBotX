@@ -128,7 +128,7 @@ public class ModularPircBot extends ExtendedPircBot {
 						}
 					}
 
-					privateModule.onTriggerPrivateMessage(this, sender, login, hostname, message);
+					privateModule.onTriggerPrivateMessage(this, sender, login, hostname);
 				}
 			}
 		}

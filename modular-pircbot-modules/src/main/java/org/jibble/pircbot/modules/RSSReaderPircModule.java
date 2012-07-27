@@ -134,8 +134,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 	}
 	
 	@Override
-	public void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname,
-			String message) {
+	public void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname) {
 		if (lastFeedRetrieved == null) {
 			bot.sendMessage(sender, "I am currently retrieving the news, please retry in a few seconds!");
 			return;

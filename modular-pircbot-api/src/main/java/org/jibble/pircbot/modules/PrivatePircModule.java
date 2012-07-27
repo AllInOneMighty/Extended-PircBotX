@@ -24,9 +24,8 @@ public interface PrivatePircModule {
 	 * @param sender the nick of the user who triggered the module
 	 * @param login the login of the user who triggered the module
 	 * @param hostname the hostname of the user who triggered the module
-	 * @param message the message sent by the user
 	 */
-	void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname, String message);
+	void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname);
 	
 	/**
 	 * Returns whether this module can only be activated by an op or not.

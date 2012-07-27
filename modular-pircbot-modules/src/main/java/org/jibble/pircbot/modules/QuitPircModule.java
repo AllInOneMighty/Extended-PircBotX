@@ -29,8 +29,7 @@ public class QuitPircModule extends AbstractPircModule implements PrivatePircMod
 	}
 
 	@Override
-	public void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname,
-			String message) {
+	public void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname) {
 		LOGGER.info("Bot was requested to quit by {}", sender);
 		bot.setQuitRequested(true);
 

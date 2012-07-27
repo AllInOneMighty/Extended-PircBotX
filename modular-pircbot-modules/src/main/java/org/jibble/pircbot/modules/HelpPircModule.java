@@ -46,8 +46,7 @@ public class HelpPircModule extends AbstractPircModule implements PublicPircModu
 	}
 	
 	@Override
-	public void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname,
-			String message) {
+	public void onTriggerPrivateMessage(ExtendedPircBot bot, String sender, String login, String hostname) {
 		for (String line : bot.buildHelp(sender, true)) {
 			bot.sendMessage(sender, line);
 		}
