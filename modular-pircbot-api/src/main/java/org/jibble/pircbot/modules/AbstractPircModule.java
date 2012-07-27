@@ -13,9 +13,27 @@ import org.jibble.pircbot.ReplyConstants;
  * @author Emmanuel Cron
  */
 public abstract class AbstractPircModule {
-	
+	/**
+	 * This method is called once the bot has successfully connected to the IRC
+	 * server.
+	 * 
+	 * @param bot the current instance of the bot
+	 */
 	public void onConnect(ExtendedPircBot bot) {}
 
+	/**
+	 * This method is called whenever a user sets the topic, or when the bot
+	 * joins a new channel and discovers its topic.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param channel the channel that the topic belongs to
+	 * @param topic the topic for the channel
+	 * @param setBy the nick of the user that set the topic
+	 * @param date when the topic was set (milliseconds since the epoch)
+	 * @param changed <tt>true</tt> if the topic has just been changed,
+	 *        <tt>false</tt> if the topic was already there
+	 * 
+	 */
 	public void onTopic(ExtendedPircBot bot, String channel, String topic, String setBy, long date, boolean changed) {}
 
 	/**
@@ -73,17 +91,79 @@ public abstract class AbstractPircModule {
 	 */
 	public void onServerResponse(ExtendedPircBot bot, int code, String response) {}
 	
+	/**
+	 * This method is called whenever someone (possibly us) joins a channel
+	 * which we are on.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param channel the channel which somebody joined
+	 * @param sender the nick of the user who joined the channel
+	 * @param login the login of the user who joined the channel
+	 * @param hostname the hostname of the user who joined the channel
+	 */
 	public void onJoin(ExtendedPircBot bot, String channel, String sender, String login, String hostname) {}
 	
+	/**
+	 * This method is called whenever someone (possibly us) changes nick on any
+	 * of the channels that we are on.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param oldNick the old nick
+	 * @param login the login of the user
+	 * @param hostname the hostname of the user
+	 * @param newNick the new nick
+	 */
 	public void onNickChange(ExtendedPircBot bot, String oldNick, String login, String hostname, String newNick) {}
 
+	/**
+	 * This method is called whenever someone (possibly us) parts a channel
+	 * which we are on.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param channel the channel which somebody parted from
+	 * @param sender the nick of the user who parted from the channel
+	 * @param login the login of the user who parted from the channel
+	 * @param hostname the hostname of the user who parted from the channel
+	 */
 	public void onPart(ExtendedPircBot bot, String channel, String sender, String login, String hostname) {}
 	
+	/**
+	 * This method is called whenever someone (possibly us) quits from the
+	 * server. We will only observe this if the user was in one of the channels
+	 * to which we are connected.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param sourceNick the nick of the user that quit from the server
+	 * @param sourceLogin the login of the user that quit from the server
+	 * @param sourceHostname the hostname of the user that quit from the server
+	 * @param reason the reason given for quitting the server
+	 */
 	public void onQuit(ExtendedPircBot bot, String sourceNick, String sourceLogin, String sourceHostname, String reason) {}
 	
+	/**
+	 * Called when the mode of a channel is set.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param channel the channel that the mode operation applies to
+	 * @param sourceNick the nick of the user that set the mode
+	 * @param sourceLogin the login of the user that set the mode
+	 * @param sourceHostname the hostname of the user that set the mode
+	 * @param mode the mode that has been set
+	 * 
+	 */
 	public void onMode(ExtendedPircBot bot, String channel, String sourceNick, String sourceLogin, String sourceHostname,
 			String mode) {}
 	
+	/**
+	 * Called when the mode of a user is set.
+	 * 
+	 * @param bot the current instance of the bot
+	 * @param targetNick the nick that the mode operation applies to
+	 * @param sourceNick the nick of the user that set the mode
+	 * @param sourceLogin the login of the user that set the mode
+	 * @param sourceHostname the hostname of the user that set the mode
+	 * @param mode the mode that has been set
+	 */
 	public void onUserMode(ExtendedPircBot bot, String targetNick, String sourceNick, String sourceLogin,
 			String sourceHostname, String mode) {}
 
