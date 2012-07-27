@@ -2,6 +2,11 @@ package org.jibble.pircbot.modules;
 
 import org.jibble.pircbot.ExtendedPircBot;
 
+/**
+ * A module that can be activated through a public channel.
+ * 
+ * @author Emmanuel Cron
+ */
 public interface PublicPircModule {
 	String getTriggerMessage();
 	
