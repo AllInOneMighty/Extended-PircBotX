@@ -30,6 +30,8 @@ public class ModularPircBot extends ExtendedPircBot {
 
 	private Set<AbstractPircModule> modules = new HashSet<AbstractPircModule>();
 	
+	private boolean modulesStarted;
+
 	public ModularPircBot(String host, List<Integer> ports, String name) {
 		this.host = host;
 		this.ports = ports;
@@ -69,14 +71,17 @@ public class ModularPircBot extends ExtendedPircBot {
 		}
 
 		
-		// Then launch the runnable modules
-		for (AbstractPircModule module : modules) {
-			if (module instanceof AbstractRunnablePircModule) {
-				AbstractRunnablePircModule runnableModule = (AbstractRunnablePircModule) module;
-				runnableModule.setBot(this);
-				LOGGER.info("Launching module thread: {}", runnableModule);
-				new Thread(threadGroup, runnableModule).start();
+		// Then launch the runnable modules if required
+		if (!modulesStarted) {
+			for (AbstractPircModule module : modules) {
+				if (module instanceof AbstractRunnablePircModule) {
+					AbstractRunnablePircModule runnableModule = (AbstractRunnablePircModule) module;
+					runnableModule.setBot(this);
+					LOGGER.info("Launching module thread: {}", runnableModule);
+					new Thread(threadGroup, runnableModule).start();
+				}
 			}
+			modulesStarted = true;
 		}
 	}
 	
