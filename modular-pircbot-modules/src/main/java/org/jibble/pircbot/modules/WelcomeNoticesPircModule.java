@@ -2,7 +2,6 @@ package org.jibble.pircbot.modules;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jibble.pircbot.ExtendedPircBot;
 
 /**
@@ -44,13 +43,19 @@ public class WelcomeNoticesPircModule extends AbstractPircModule {
 		}
 
 		if (welcomeNotices != null) {
-			String helpTriggers = "!" + StringUtils.join(bot.getHelpTriggers(), ", !");
-			String helpPrivateTriggers = StringUtils.join(bot.getHelpTriggers(), ", ");
+			List<String> helpTriggers = bot.getHelpTriggers();
+			String helpTrigger = "";
+			String helpPrivateTrigger = "";
+			if (helpTriggers.size() > 0) {
+				helpTrigger = "!" + helpTriggers.get(0);
+				helpPrivateTrigger = helpTriggers.get(0);
+			}
+
 			for (String welcomeNotice : welcomeNotices) {
 				welcomeNotice = welcomeNotice.replace("{botname}", bot.getNick());
 				welcomeNotice = welcomeNotice.replace("{channel}", channel);
-				welcomeNotice = welcomeNotice.replace("{helptrigger}", "!" + helpTriggers);
-				welcomeNotice = welcomeNotice.replace("{helpprivatetrigger}", helpPrivateTriggers);
+				welcomeNotice = welcomeNotice.replace("{helptrigger}", helpTrigger);
+				welcomeNotice = welcomeNotice.replace("{helpprivatetrigger}", helpPrivateTrigger);
 				bot.sendNotice(sender, welcomeNotice);
 			}
 		}
