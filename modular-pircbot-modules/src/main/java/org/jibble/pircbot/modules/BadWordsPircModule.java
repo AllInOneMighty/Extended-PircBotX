@@ -14,6 +14,15 @@ import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads a list of words that are forbidden on any public chat on which the bot
+ * is connected. If any of these words is said by a user connected to these
+ * channels, he/she is immediately kicked with a custom reason.
+ * <p>
+ * This module will not kick admins from the channel.
+ * 
+ * @author Emmanuel Cron
+ */
 public class BadWordsPircModule extends AbstractPircModule {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BadWordsPircModule.class);
 
@@ -21,9 +30,18 @@ public class BadWordsPircModule extends AbstractPircModule {
 
 	private String kickReason;
 	
+	/**
+	 * Creates a new badwords module.
+	 * 
+	 * @param badwordsPath path to the file containing the bad words; each word
+	 *        must be on a new line
+	 * @param encoding the encoding in which the file is stored
+	 * @param kickReason the custom reason that will be displayed when a user is
+	 *        kicked by the bot
+	 */
 	public BadWordsPircModule(String badwordsPath, String encoding, String kickReason) {
 		this.kickReason = kickReason;
-		loadChuckNorris(badwordsPath, encoding);
+		loadBadWords(badwordsPath, encoding);
 	}
 	
 	@Override
@@ -50,7 +68,9 @@ public class BadWordsPircModule extends AbstractPircModule {
 		}
 	}
 	
-	private void loadChuckNorris(String badwordsPath, String encoding) {
+	// internal helpers
+
+	private void loadBadWords(String badwordsPath, String encoding) {
 		InputStream input = ClassLoader.getSystemResourceAsStream(badwordsPath);
 		try {
 			Reader reader = new InputStreamReader(input, encoding);
