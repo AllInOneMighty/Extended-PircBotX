@@ -33,7 +33,7 @@ public class FactsPircModule extends AbstractPircModule implements PublicPircMod
 	}
 
 	@Override
-	public String getHelp() {
+	public String getHelpText() {
 		return helpMessage;
 	}
 

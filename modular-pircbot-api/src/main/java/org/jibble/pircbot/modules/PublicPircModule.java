@@ -21,7 +21,7 @@ public interface PublicPircModule {
 	 * 
 	 * @return the description of this module
 	 */
-	String getHelp();
+	String getHelpText();
 	
 	/**
 	 * This method is called when this module has been activated in a public

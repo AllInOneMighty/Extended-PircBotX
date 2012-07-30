@@ -2,6 +2,7 @@ package org.jibble.pircbot.modules;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jibble.pircbot.ExtendedPircBot;
 
 /**
@@ -22,8 +23,6 @@ import org.jibble.pircbot.ExtendedPircBot;
 public class WelcomeNoticesPircModule extends AbstractPircModule {
 	private List<String> welcomeNotices;
 	
-	private String helpTrigger;
-
 	/**
 	 * Creates a new welcome module.
 	 * 
@@ -33,9 +32,8 @@ public class WelcomeNoticesPircModule extends AbstractPircModule {
 	 * @param helpTrigger the command that needs to be sent to the bot to
 	 *        display the help
 	 */
-	public WelcomeNoticesPircModule(List<String> welcomeNotices, String helpTrigger) {
+	public WelcomeNoticesPircModule(List<String> welcomeNotices) {
 		this.welcomeNotices = welcomeNotices;
-		this.helpTrigger = helpTrigger;
 	}
 
 	@Override
@@ -46,10 +44,13 @@ public class WelcomeNoticesPircModule extends AbstractPircModule {
 		}
 
 		if (welcomeNotices != null) {
+			String helpTriggers = "!" + StringUtils.join(bot.getHelpTriggers(), ", !");
+			String helpPrivateTriggers = StringUtils.join(bot.getHelpTriggers(), ", ");
 			for (String welcomeNotice : welcomeNotices) {
 				welcomeNotice = welcomeNotice.replace("{botname}", bot.getNick());
 				welcomeNotice = welcomeNotice.replace("{channel}", channel);
-				welcomeNotice = welcomeNotice.replace("{helptrigger}", helpTrigger);
+				welcomeNotice = welcomeNotice.replace("{helptrigger}", "!" + helpTriggers);
+				welcomeNotice = welcomeNotice.replace("{helpprivatetrigger}", helpPrivateTriggers);
 				bot.sendNotice(sender, welcomeNotice);
 			}
 		}

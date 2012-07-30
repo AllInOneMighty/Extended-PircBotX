@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jibble.pircbot.modules.AbstractPircModule;
 import org.jibble.pircbot.modules.AbstractRunnablePircModule;
 import org.jibble.pircbot.modules.AbstractStoppablePircModule;
+import org.jibble.pircbot.modules.HelpPircModule;
 import org.jibble.pircbot.modules.PrivatePircModule;
 import org.jibble.pircbot.modules.PublicPircModule;
 import org.slf4j.Logger;
@@ -26,8 +27,6 @@ public class ModularPircBot extends ExtendedPircBot {
 	
 	private List<Integer> ports;
 	
-	private String helpIntro;
-
 	private Set<AbstractPircModule> modules = new HashSet<AbstractPircModule>();
 	
 	private boolean modulesStarted;
@@ -41,7 +40,7 @@ public class ModularPircBot extends ExtendedPircBot {
 	public void addModule(AbstractPircModule module) {
 		modules.add(module);
 	}
-
+	
 	public void connect() {
 		int i = 0;
 		do {
@@ -57,10 +56,6 @@ public class ModularPircBot extends ExtendedPircBot {
 		} while (!isConnected());
 	}
 	
-	public void setHelpIntro(String helpIntro) {
-		this.helpIntro = helpIntro;
-	}
-
 	@Override
 	protected void onConnect() {
 		LOGGER.info("Connected with name: {}", getNick());
@@ -243,11 +238,21 @@ public class ModularPircBot extends ExtendedPircBot {
 	}
 	
 	@Override
+	public List<String> getHelpTriggers() {
+		List<String> helpTriggers = new ArrayList<String>();
+		for (AbstractPircModule module : modules) {
+			if (module instanceof HelpPircModule) {
+				// Same as private (specific to this module)
+				helpTriggers.add(((HelpPircModule) module).getTriggerMessage());
+			}
+		}
+		// No help module, no help trigger
+		return helpTriggers;
+	}
+	
+	@Override
 	public List<String> buildHelp(String nick, boolean inPrivate) {
 		List<String> help = new ArrayList<String>();
-		if (StringUtils.isNotBlank(helpIntro)) {
-			help.add(helpIntro);
-		}
 		
 		Map<String, String> helpMap = new TreeMap<String, String>();
 		if (!inPrivate) {
@@ -257,9 +262,9 @@ public class ModularPircBot extends ExtendedPircBot {
 					PublicPircModule publicModule = (PublicPircModule) module;
 					String trigger = "!" + publicModule.getTriggerMessage();
 					String line = trigger;
-					if (StringUtils.isNotBlank(publicModule.getHelp())) {
+					if (StringUtils.isNotBlank(publicModule.getHelpText())) {
 						// We suppose commands are never bigger than 20 characters
-						line = StringUtils.rightPad(line, 20) + publicModule.getHelp();
+						line = StringUtils.rightPad(line, 20) + publicModule.getHelpText();
 					}
 					helpMap.put(trigger, line);
 				}
@@ -281,10 +286,10 @@ public class ModularPircBot extends ExtendedPircBot {
 					// Adding public help if it is available
 					if (module instanceof PublicPircModule) {
 						PublicPircModule publicModule = (PublicPircModule) module;
-						if (StringUtils.isNotBlank(publicModule.getHelp())) {
+						if (StringUtils.isNotBlank(publicModule.getHelpText())) {
 							// We suppose commands are never bigger than 20
 							// characters
-							line = StringUtils.rightPad(line, 20) + publicModule.getHelp();
+							line = StringUtils.rightPad(line, 20) + publicModule.getHelpText();
 						}
 					}
 					helpMap.put(trigger, line);
@@ -295,9 +300,9 @@ public class ModularPircBot extends ExtendedPircBot {
 
 		return help;
 	}
-	
+
 	// internal helpers
-	
+
 	private boolean isUserOp(String nick) {
 		String[] channels = getChannels();
 		// User may be found on any channel

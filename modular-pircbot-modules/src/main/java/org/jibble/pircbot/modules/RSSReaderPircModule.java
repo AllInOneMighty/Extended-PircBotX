@@ -70,7 +70,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 	}
 
 	@Override
-	public String getHelp() {
+	public String getHelpText() {
 		return helpMessage;
 	}
 	
