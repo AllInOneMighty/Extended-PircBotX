@@ -12,6 +12,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Reads <a
+ * href="http://en.wikipedia.org/wiki/Fortune_(Unix)#Fortune_files">fortunes
+ * files</a> using the single file version.
+ * 
+ * @author Emmanuel Cron
+ */
 public class FortunesReader implements FactsReader {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FortunesReader.class);
 
@@ -19,6 +26,12 @@ public class FortunesReader implements FactsReader {
 
 	private String encoding;
 
+	/**
+	 * Creates a new fortunes reader.
+	 * 
+	 * @param fortunesPath the path to the fortunes file to read
+	 * @param encoding the encoding in which the file is stored
+	 */
 	public FortunesReader(String fortunesPath, String encoding) {
 		this.fortunesPath = fortunesPath;
 		this.encoding = encoding;
