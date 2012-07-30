@@ -20,6 +20,13 @@ import org.jibble.pircbot.util.URLShortener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Shortens URLs using the <a href="http://shar.as/">http://shar.as/</a>
+ * service. This class caches all shortened URLs thus it is recommended for URLs
+ * that are likely to be reused by the bot.
+ * 
+ * @author Emmanuel Cron
+ */
 public class SharasURLShortener implements URLShortener {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SharasURLShortener.class);
@@ -32,6 +39,12 @@ public class SharasURLShortener implements URLShortener {
 	
 	private String cachePath;
 	
+	/**
+	 * Creates a new shortener, using the provided path as folder to store the
+	 * cache of the shortened URLs.
+	 * 
+	 * @param cachePath path to a local folder where to store the cache file
+	 */
 	public SharasURLShortener(String cachePath) {
 		this.cachePath = cachePath;
 	}
