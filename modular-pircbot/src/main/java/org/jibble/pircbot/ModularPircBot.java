@@ -29,6 +29,8 @@ public class ModularPircBot extends ExtendedPircBot {
 	
 	private Set<AbstractPircModule> modules = new HashSet<AbstractPircModule>();
 	
+	private boolean helpModuleAdded;
+
 	private boolean modulesStarted;
 
 	public ModularPircBot(String host, List<Integer> ports, String name) {
@@ -38,6 +40,14 @@ public class ModularPircBot extends ExtendedPircBot {
 	}
 
 	public void addModule(AbstractPircModule module) {
+		if (module instanceof HelpPircModule) {
+			if (helpModuleAdded) {
+				// Cannot add two different help modules
+				throw new IllegalStateException("Bot cannot have more than one help module");
+			} else {
+				helpModuleAdded = true;
+			}
+		}
 		modules.add(module);
 	}
 	
