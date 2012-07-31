@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class ExtendedPircBot extends PircBot {
 	private boolean quitRequested;
 	
-	public abstract List<String> getHelpTriggers();
+	public abstract String getHelpTrigger();
 
 	/**
 	 * Builds a list of lines to be sent to the user that gives help information

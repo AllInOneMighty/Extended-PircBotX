@@ -248,16 +248,15 @@ public class ModularPircBot extends ExtendedPircBot {
 	}
 	
 	@Override
-	public List<String> getHelpTriggers() {
-		List<String> helpTriggers = new ArrayList<String>();
+	public String getHelpTrigger() {
 		for (AbstractPircModule module : modules) {
 			if (module instanceof HelpPircModule) {
 				// Same as private (specific to this module)
-				helpTriggers.add(((HelpPircModule) module).getTriggerMessage());
+				return ((HelpPircModule) module).getTriggerMessage();
 			}
 		}
 		// No help module, no help trigger
-		return helpTriggers;
+		return null;
 	}
 	
 	@Override

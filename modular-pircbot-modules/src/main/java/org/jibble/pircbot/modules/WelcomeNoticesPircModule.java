@@ -43,13 +43,8 @@ public class WelcomeNoticesPircModule extends AbstractPircModule {
 		}
 
 		if (welcomeNotices != null) {
-			List<String> helpTriggers = bot.getHelpTriggers();
-			String helpTrigger = "";
-			String helpPrivateTrigger = "";
-			if (helpTriggers.size() > 0) {
-				helpTrigger = "!" + helpTriggers.get(0);
-				helpPrivateTrigger = helpTriggers.get(0);
-			}
+			String helpTrigger = "!" + bot.getHelpTrigger();
+			String helpPrivateTrigger = bot.getHelpTrigger();
 
 			for (String welcomeNotice : welcomeNotices) {
 				welcomeNotice = welcomeNotice.replace("{botname}", bot.getNick());
