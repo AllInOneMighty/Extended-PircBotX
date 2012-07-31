@@ -13,8 +13,10 @@ import org.jibble.pircbot.ExtendedPircBot;
  * <dt>{channel}</dt>
  * <dd>Channel that the user has just joined</dd>
  * <dt>{helptrigger}</dt>
- * <dd>Command to send to the bot to display the help. Note that you may not use
- * this code if you do not want your users to know how to display the help.</dd>
+ * <dd>Command to send in a public channel where the bot is connected to display
+ * the help.</dd>
+ * <dt>{helpprivatetrigger}</dt>
+ * <dd>Command to send in private chat with the bot to display the help.</dd>
  * </dl>
  * 
  * @author Emmanuel Cron

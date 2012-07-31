@@ -12,6 +12,12 @@ import java.util.List;
 public abstract class ExtendedPircBot extends PircBot {
 	private boolean quitRequested;
 	
+	/**
+	 * Returns the trigger used to display the help. This method may return
+	 * <tt>null</tt> if no help module has been added to the bot.
+	 * 
+	 * @return the bot help trigger or <tt>null</tt> if none could be found
+	 */
 	public abstract String getHelpTrigger();
 
 	/**

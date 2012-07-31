@@ -9,8 +9,13 @@ import org.jibble.pircbot.ExtendedPircBot;
  */
 public interface PublicPircModule {
 	/**
-	 * Returns the exact word that a user has to say in a public channel chat to
-	 * activate this module.
+	 * Returns the word that a user has to say in a public channel chat to
+	 * activate this module. Note that an exclamation mark will have to prefix
+	 * this word for the bot to recognize it.
+	 * <p>
+	 * For example, if this method returns "<tt>help</tt>
+	 * ", a user will have to say "<tt>!help</tt>" in a public channel to
+	 * trigger this module.
 	 * 
 	 * @return the trigger message of the module
 	 */
