@@ -19,7 +19,20 @@ import org.slf4j.LoggerFactory;
  * is connected. If any of these words is said by a user connected to these
  * channels, he/she is immediately kicked with a custom reason.
  * <p>
- * This module will not kick admins from the channel.
+ * This module will not kick admins.
+ * 
+ * <h2>Bad words file format</h2>
+ * Bad words must be written in a file containing one bad word per line. If a
+ * line starts with '<tt>#</tt>', the line is ignored.
+ * <p>
+ * Example:
+ * 
+ * <pre> # This is the bad words file
+ * idiot
+ * motherkisser
+ * 
+ * # Will be ignored
+ * #stupid</pre>
  * 
  * @author Emmanuel Cron
  */
@@ -33,8 +46,8 @@ public class BadWordsPircModule extends AbstractPircModule {
 	/**
 	 * Creates a new badwords module.
 	 * 
-	 * @param badwordsPath path to the file containing the bad words; each word
-	 *        must be on a new line
+	 * @param badwordsPath path from the root of the claspath to the file
+	 *        containing the bad words; each word must be on a new line
 	 * @param encoding the encoding in which the file is stored
 	 * @param kickReason the custom reason that will be displayed when a user is
 	 *        kicked by the bot
