@@ -34,25 +34,98 @@ import org.slf4j.LoggerFactory;
 public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ChatLoggerPircModule.class);
 
+	/**
+	 * List of chat messages that are supported by the chat logger module.
+	 * <p>
+	 * Each chat message has a default log format that may be overridden by a
+	 * custom value.
+	 * 
+	 * @author Emmanuel Cron
+	 */
 	public enum ChatLoggerEvent {
-		TOPIC(1),
-		TOPIC_SET_BY(2),
-		TOPIC_CHANGED(2),
-		MESSAGE(3),
-		JOIN(4),
-		PART(5),
-		QUIT(5),
-		MODE(2),
-		USER_MODE(3);
+		/**
+		 * When the topic is sent to the bot.
+		 * 
+		 * <pre>Topic is {topic}</pre>
+		 */
+		TOPIC(1, "* Topic is '%s'"),
+		/**
+		 * When the information about whom sent the last topic is sent to the
+		 * bot.
+		 * 
+		 * <pre>Set by {nick} on {date}</pre>
+		 */
+		TOPIC_SET_BY(2, "* Set by %s on %s"),
+		/**
+		 * When someone changes the topic of the channel.
+		 * 
+		 * <pre>{nick} changes topic to {newtopic}</pre>
+		 */
+		TOPIC_CHANGED(2, "* %s changes topic to '%s'"),
+		/**
+		 * When someone says something on the channel.
+		 * 
+		 * <pre>&lt;{prefix}{nick}&gt; {message}</pre>
+		 */
+		MESSAGE(3, "<%s%s> %s"),
+		/**
+		 * When someone joins the channel.
+		 * 
+		 * <pre>{nick} ({login}@{host} has joined {channel}</pre>
+		 */
+		JOIN(4, "* %s (%s@%s) has joined %s"),
+		/**
+		 * When someone leaves the channel.
+		 * 
+		 * <pre>{prefix}{nick} ({login}@{host} has left {channel}</pre>
+		 */
+		PART(5, "* %s%s (%s@%s) has left %s"),
+		/**
+		 * When someone quits the server.
+		 * 
+		 * <pre>{prefix}{nick} ({login}@{host} Quit ({quitmessage})</pre>
+		 */
+		QUIT(5, "* %s%s (%s@%s) Quit (%s)"),
+		/**
+		 * When the channel modes (moderated, private, ...) are changed.
+		 * 
+		 * <pre>{nick} sets mode: {modes}</pre>
+		 */
+		MODE(2, "* %s sets mode: %s"),
+		/**
+		 * When user modes (op, voice, ...) are changed.
+		 * 
+		 * <pre>{nick} sets mode: {nick} {modes}</pre>
+		 */
+		USER_MODE(3, "* %s sets mode: %s %s");
 		
 		private int requiredReplacements;
 		
-		private ChatLoggerEvent(int replacementsCount) {
+		private String defaultFormat;
+		
+		private ChatLoggerEvent(int replacementsCount, String defaultFormat) {
 			this.requiredReplacements = replacementsCount;
+			this.defaultFormat = defaultFormat;
 		}
 		
+		/**
+		 * Number of replacement strings (<tt>%s</tt>) expected by this chat
+		 * event.
+		 * 
+		 * @return the number of required replacement strings in the format of
+		 *         this chat event
+		 */
 		public int getRequiredReplacements() {
 			return requiredReplacements;
+		}
+		
+		/**
+		 * The default log format of this chat event.
+		 * 
+		 * @return the default log format
+		 */
+		public String getDefaultFormat() {
+			return defaultFormat;
 		}
 	}
 
@@ -72,25 +145,74 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 	
 	private boolean checkedFormats;
 
+	/**
+	 * Creates a new chat logger module.
+	 * 
+	 * @param logsPath the folder where to store the chat log files
+	 * @param charset the charset to use when writing in the log files
+	 */
 	public ChatLoggerPircModule(String logsPath, String charset) {
 		this.logsPath = logsPath;
 		this.charset = charset;
 	}
 	
+	/**
+	 * Sets the format to use for one of the {@link ChatLoggerEvent}s supported
+	 * by this module. The given format must contain at least the number of
+	 * required string replacements of the event (specified by
+	 * {@link ChatLoggerEvent#getRequiredReplacements()}).
+	 * <p>
+	 * The exact data used to replace these string replacements depends on the
+	 * event logged. They have been hugely inspired by the way the <a
+	 * href="http://www.mirc.com/">mIRC</a> IRC client displays them.
+	 * <p>
+	 * Each event provides a default format that should fit for most situations.
+	 * However, you can use this method to override this format. You may also
+	 * use it to disable a particular event by specifying an empty or
+	 * <tt>null</tt> format.
+	 * <p>
+	 * You may get all default formats by calling
+	 * {@link ChatLoggerEvent#getDefaultFormat()} on each chat event.
+	 * 
+	 * @param event the event for which set a new format
+	 * @param format the format; it may be empty or <tt>null</tt> if you wish to
+	 *        disable logging for this event
+	 */
 	public void setEventFormat(ChatLoggerEvent event, String format) {
+		if (StringUtils.isBlank(format)) {
+			eventFormats.put(event, null);
+			return;
+		}
+
 		int countMatches = StringUtils.countMatches(format, "%s");
 		if (countMatches < event.getRequiredReplacements()) {
-			LOGGER.warn("Number of replacements strings is fewer than the expected count, some data may not be logged; event: "
-					+ event.name() + ", expected: " + event.getRequiredReplacements() + ", format: '" + format + "'");
+			LOGGER.warn(
+				"Number of replacements strings is fewer than the expected count, some data may not be logged; event: {}, expected: {}, format: '{}'",
+				new Object[] {event.name(), event.getRequiredReplacements(), format});
 		} else if (countMatches > event.getRequiredReplacements()) {
-			LOGGER.error("EVENT WILL NOT BE LOGGED - Number of replacements strings exceeds expected count; event: "
-					+ event.name() + ", expected: " + event.getRequiredReplacements() + ", format: '" + format + "'");
-			// Avoiding later exceptions when calling format()
+			// Fail safe
+
+			LOGGER.error(
+				"WILL USE DEFAULT LOG FORMAT - Number of replacements strings exceeds expected count; event: {}, expected: {}, format: '{}'",
+				new Object[] {event.name(), event.getRequiredReplacements(), format});
+			// Not inserting anything in map to use default format
 			return;
 		}
 		eventFormats.put(event, format);
 	}
 
+	/**
+	 * Sets the timestamp format to use in the chat logs. If the given pattern
+	 * is empty (or i you never call this method), no timestamp will be used in
+	 * the logs.
+	 * <p>
+	 * Format must be compatible with a {@link SimpleDateFormat}.
+	 * 
+	 * @param pattern the date/time pattern to use for each message in the chat
+	 *        logs
+	 * 
+	 * @throws IllegalArgumentException if the pattern is invalid
+	 */
 	public void setTimestampFormat(String pattern) {
 		if (StringUtils.isBlank(pattern)) {
 			timestampFormat = null;
@@ -170,19 +292,25 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 
 	private synchronized void log(String channel, ChatLoggerEvent event, Object... args) {
 		if (!checkedFormats) {
-			for (ChatLoggerEvent IEvent : ChatLoggerEvent.values()) {
-				if (StringUtils.isBlank(eventFormats.get(IEvent))) {
-					LOGGER.warn("No format defined for event " + event + ", they will not be logged");
+			for (ChatLoggerEvent checkEvent : ChatLoggerEvent.values()) {
+				if (eventFormats.containsKey(checkEvent) && eventFormats.get(checkEvent) == null) {
+					LOGGER.info("Format of event {} has been forced to nothing; it will not be logged", event);
 				}
 			}
 			checkedFormats = true;
 		}
 
-		if (!eventFormats.containsKey(event)) {
+		// Get custom format (may be blank) or default if not set
+		String format = eventFormats.containsKey(event) ? eventFormats.get(event) : event.getDefaultFormat();
+		
+		// Cannot be blank here, check is done in setEventFormat()
+		if (format == null) {
+			// Means a key was found but it was set to nothing (= wishing not to
+			// log these events)
 			return;
 		}
 
-		String message = String.format(eventFormats.get(event), args);
+		String message = String.format(format, args);
 		if (timestampFormat != null) {
 			message = "[" + timestampFormat.format(System.currentTimeMillis()) + "] " + message;
 		}
