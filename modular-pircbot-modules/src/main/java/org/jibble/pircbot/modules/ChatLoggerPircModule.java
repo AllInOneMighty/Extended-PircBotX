@@ -31,6 +31,21 @@ import org.joda.time.DateMidnight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A module that logs everything that the bot sees (or almost...) into log files
+ * on the machine it is running. Files are automatically renamed each day to
+ * keep one file name per day.
+ * <p>
+ * Chat events (= things the bot sees) all have a default log format that can be
+ * overridden if needed. All supported events are described in the
+ * {@link ChatLoggerEvent} enumeration.
+ * <p>
+ * If you want to override a chat event log format, use
+ * {@link #setEventFormat(ChatLoggerEvent, String)}. If you want to add
+ * timestamps to your log files, use {@link #setTimestampFormat(String)}.
+ * 
+ * @author Emmanuel Cron
+ */
 public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ChatLoggerPircModule.class);
 
