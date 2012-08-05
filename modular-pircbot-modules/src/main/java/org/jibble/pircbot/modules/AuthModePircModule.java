@@ -36,7 +36,7 @@ public class AuthModePircModule extends AbstractPircModule {
 	public void onConnect(ExtendedPircBot bot) {
 		bot.sendRawLineViaQueue("auth " + authUsername + " " + authPassword);
 		if (StringUtils.isNotBlank(modes)) {
-			bot.sendRawLineViaQueue("mode " + bot.getNick() + " +x");
+			bot.sendRawLineViaQueue("mode " + bot.getNick() + modes);
 		}
 	}
 	
