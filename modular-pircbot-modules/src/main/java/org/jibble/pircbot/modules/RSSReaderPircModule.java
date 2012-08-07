@@ -46,18 +46,20 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 
 	private boolean run;
 
-	public RSSReaderPircModule(String trigger, String cachePath, URL feedURL, int checkInterval,
-			URLShortener urlShortener)
+	public RSSReaderPircModule(String trigger, String cachePath, URL feedURL, int checkInterval)
 			throws MalformedURLException {
 		this.trigger = trigger;
 		this.feedFetcherCache = new DiskFeedInfoCache(cachePath);
 		this.feedURL = feedURL;
 		this.checkInterval = checkInterval * 1000;
-		this.urlShortener = urlShortener;
 	}
 	
 	public void setDefaultToDisplay(int defaultToDisplay) {
 		this.defaultToDisplay = defaultToDisplay;
+	}
+	
+	public void setURLShortener(URLShortener urlShortener) {
+		this.urlShortener = urlShortener;
 	}
 
 	@Override
@@ -149,15 +151,16 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 	// internal helpers
 
 	private String buildMessageFromNewsEntry(SyndEntry entry) {
-		String sharas;
-		try {
-			sharas = urlShortener.shortenURL(entry.getLink());
-		} catch (IOException ioe) {
-			LOGGER.error("Could not sharasify URL, using normal URL instead", ioe);
-			sharas = entry.getLink();
+		String url = entry.getLink();
+		if (urlShortener != null) {
+			try {
+				url = urlShortener.shortenURL(url);
+			} catch (IOException ioe) {
+				LOGGER.error("Could not shorten URL, using normal URL instead", ioe);
+			}
 		}
 		
-		return "[\u0002News\u0002] " + entry.getTitle() + " - " + sharas;
+		return "[\u0002News\u0002] " + entry.getTitle() + " - " + url;
 	}
 
 	private void announceUndisplayedNews(PircBot bot, SyndFeed feed) {
