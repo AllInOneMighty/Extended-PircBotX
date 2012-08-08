@@ -21,6 +21,23 @@ import com.sun.syndication.fetcher.impl.FeedFetcherCache;
 import com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
 import com.sun.syndication.io.FeedException;
 
+/**
+ * Displays any new item of a given RSS feed in all public channels the bot has
+ * joined. Users can also ask the bot to send the last 3 entries (amount is
+ * customizable) as <tt>NOTICE</tt> when in a public channel or as a normal
+ * message when talking privately to the bot.
+ * <p>
+ * This module supports the use of an URL shortener service to display smaller
+ * messages when announcing new RSS news. If you want to use such a service,
+ * call the {@link #setURLShortener(URLShortener)} method.
+ * <p>
+ * Feeds retrieved from the web are automatically cached in a flat file by the
+ * underlying feed fetcher. Additionally, the module is limited to one fetch
+ * attempt every given interval (interval set when creating the bot) to avoid
+ * spamming the server that hosts it.
+ * 
+ * @author Emmanuel Cron
+ */
 public class RSSReaderPircModule extends AbstractRunnablePircModule implements PublicPircModule, PrivatePircModule {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RSSReaderPircModule.class);
 	
@@ -46,6 +63,19 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 
 	private boolean run;
 
+	/**
+	 * Creates a new RSS reader module.
+	 * 
+	 * @param trigger the word to say in a public or private chat to trigger the
+	 *        display of the last news; in a public channel, this word must be
+	 *        prefixed by "<tt>!</tt>"
+	 * @param cachePath where to store the cache files of the retrieved feeds
+	 * @param feedURL URL where to find the feed to retrieve
+	 * @param checkInterval interval, in seconds, between two feed fetching
+	 *        operations
+	 * 
+	 * @throws MalformedURLException if the given feed URL is not a valid URL
+	 */
 	public RSSReaderPircModule(String trigger, String cachePath, URL feedURL, int checkInterval)
 			throws MalformedURLException {
 		this.trigger = trigger;
@@ -54,10 +84,24 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 		this.checkInterval = checkInterval * 1000;
 	}
 	
+	/**
+	 * Sets how many news to display when requesting the latest news by using
+	 * the trigger command. If there are less news in the feed that this amount,
+	 * only the available news are displayed.
+	 * 
+	 * @param defaultToDisplay number of news to display
+	 */
 	public void setDefaultToDisplay(int defaultToDisplay) {
 		this.defaultToDisplay = defaultToDisplay;
 	}
 	
+	/**
+	 * Sets a service to shorten URLs of the items contained in the RSS feed, if
+	 * they have one.
+	 * 
+	 * @param urlShortener an URL shortener service, or <tt>null</tt> if you
+	 *        want to remove one previously set
+	 */
 	public void setURLShortener(URLShortener urlShortener) {
 		this.urlShortener = urlShortener;
 	}
