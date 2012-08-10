@@ -18,6 +18,23 @@ import org.jibble.pircbot.modules.PublicPircModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A modular {@link PircBot} in which you can add modules.
+ * <p>
+ * Modules may implement any functionality that you wish. You can even make them
+ * runnable (by extending {@link AbstractPircModule}) to make them do some
+ * background work while the bot is running. The bot will automatically run and
+ * stop these modules when it connects to or quits from the IRC server.
+ * <p>
+ * You can add your modules by calling the
+ * {@link #addModule(AbstractPircModule)} method. You can add help support by
+ * adding the {@link HelpPircModule} module to this bot before connecting it.
+ * <p>
+ * You can then connect the bot by calling {@link #connect()}. This method
+ * automatically retries connections until the bot is connected.
+ * 
+ * @author Emmanuel Cron
+ */
 public class ModularPircBot extends ExtendedPircBot {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModularPircBot.class);
 
@@ -33,6 +50,15 @@ public class ModularPircBot extends ExtendedPircBot {
 
 	private boolean modulesStarted;
 
+	/**
+	 * Creates a new modular {@link PircBot}.
+	 * 
+	 * @param host host name or IP of the server to which connect the bot
+	 * @param ports ports that should successively be tried until the bot is
+	 *        connected to the server (if the last port is reached, it will
+	 *        retry with the first port)
+	 * @param name nick that the bot should be using on the server
+	 */
 	public ModularPircBot(String host, List<Integer> ports, String name) {
 		this.host = host;
 		this.ports = ports;
