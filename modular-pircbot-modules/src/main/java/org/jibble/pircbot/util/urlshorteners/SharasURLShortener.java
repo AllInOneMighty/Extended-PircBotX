@@ -33,7 +33,7 @@ public class SharasURLShortener implements URLShortener {
 	
 	private static final String SERVICE_URL = "http://shar.as/geturl.php?url=%s";
 	
-	private static final String CACHE_FILE_NAME = "cache";
+	private static final String CACHE_FILE_NAME = "sharas";
 	
 	private Map<String, String> cache;
 	
