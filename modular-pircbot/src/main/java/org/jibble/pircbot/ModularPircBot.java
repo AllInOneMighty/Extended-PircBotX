@@ -65,6 +65,13 @@ public class ModularPircBot extends ExtendedPircBot {
 		setName(name);
 	}
 
+	/**
+	 * Adds a module to the bot. You should use this method before calling
+	 * {@link #connect()}. Runnable modules will be launched when the bot
+	 * connects to the server.
+	 * 
+	 * @param module a {@link PircBot} module
+	 */
 	public void addModule(AbstractPircModule module) {
 		if (module instanceof HelpPircModule) {
 			if (helpModuleAdded) {
@@ -77,6 +84,12 @@ public class ModularPircBot extends ExtendedPircBot {
 		modules.add(module);
 	}
 	
+	/**
+	 * Connects the bot to the server and ports specified when constructing this
+	 * class. This method will successively try all ports until the bot is
+	 * connected. If the last port is reached, the bot retries with the first
+	 * port and so on.
+	 */
 	public void connect() {
 		int i = 0;
 		do {
