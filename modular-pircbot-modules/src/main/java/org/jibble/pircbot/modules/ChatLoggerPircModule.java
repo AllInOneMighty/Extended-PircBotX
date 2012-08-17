@@ -1,6 +1,8 @@
 package org.jibble.pircbot.modules;
 
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.JOIN;
+import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.KICK;
+import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.KICK_YOU;
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.MESSAGE;
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.MODE;
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.PART;
@@ -95,6 +97,18 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 		 * <pre>{prefix}{nick} ({login}@{host} has left {channel}</pre>
 		 */
 		PART(5, "* %s%s (%s@%s) has left %s"),
+		/**
+		 * When someone is kicked from a channel.
+		 * 
+		 * <pre>* %s was kicked by %s (%s)</pre>
+		 */
+		KICK(3, "* %s was kicked by %s (%s)"),
+		/**
+		 * When the bot is kicked from a channel.
+		 * 
+		 * <pre>* You were kicked from %s by %s (%s)</pre>
+		 */
+		KICK_YOU(3, "* You were kicked from %s by %s (%s)"),
 		/**
 		 * When someone quits the server.
 		 * 
@@ -303,6 +317,16 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 		}
 	}
 	
+	@Override
+	public void onKick(ExtendedPircBot bot, String channel, String kickerNick, String kickerLogin,
+			String kickerHostname, String recipientNick, String reason) {
+		if (bot.getNick().equals(recipientNick)) {
+			log(channel, KICK_YOU, channel, kickerNick, reason);
+		} else {
+			log(channel, KICK, recipientNick, kickerNick, reason);
+		}
+	}
+
 	// internal helpers
 
 	private synchronized void log(String channel, ChatLoggerEvent event, Object... args) {
