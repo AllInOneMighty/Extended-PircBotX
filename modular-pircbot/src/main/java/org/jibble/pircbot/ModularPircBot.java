@@ -252,6 +252,11 @@ public class ModularPircBot extends ExtendedPircBot {
 	protected void onDisconnect() {
 		LOGGER.info("Bot disconnected");
 
+		// Trigger event on modules
+		for (AbstractPircModule module : modules) {
+			module.onDisconnect(this);
+		}
+
 		if (!isQuitRequested()) {
 			// Not a wanted quit, forcing reconnect
 			LOGGER.info("Unexpected disconnection detected, reconnecting");

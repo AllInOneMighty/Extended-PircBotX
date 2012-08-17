@@ -1,5 +1,6 @@
 package org.jibble.pircbot.modules;
 
+import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.DISCONNECT;
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.JOIN;
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.KICK;
 import static org.jibble.pircbot.modules.ChatLoggerPircModule.ChatLoggerEvent.KICK_YOU;
@@ -109,6 +110,12 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 		 * <pre>* You were kicked from %s by %s (%s)</pre>
 		 */
 		KICK_YOU(3, "* You were kicked from %s by %s (%s)"),
+		/**
+		 * When the bot is disconnected from the server.
+		 * 
+		 * <pre>* Disconnected</pre>
+		 */
+		DISCONNECT(0, "* Disconnected"),
 		/**
 		 * When someone quits the server.
 		 * 
@@ -288,6 +295,13 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 		log(channel, PART, getUserPrefix(bot, channel, sender), sender, login, hostname, channel);
 	}
 	
+	@Override
+	public void onDisconnect(ExtendedPircBot bot) {
+		for (String channel : bot.getChannels()) {
+			log(channel, DISCONNECT);
+		}
+	}
+
 	@Override
 	public void
 			onQuit(ExtendedPircBot bot, String sourceNick, String sourceLogin, String sourceHostname, String reason) {

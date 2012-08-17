@@ -128,6 +128,25 @@ public abstract class AbstractPircModule {
 	public void onPart(ExtendedPircBot bot, String channel, String sender, String login, String hostname) {}
 	
 	/**
+	 * This method carries out the actions to be performed when the bot gets
+	 * disconnected. This may happen if the bot quits from the server, or if the
+	 * connection is unexpectedly lost.
+	 * <p>
+	 * Disconnection from the IRC server is detected immediately if either we or
+	 * the server close the connection normally. If the connection to the server
+	 * is lost, but neither we nor the server have explicitly closed the
+	 * connection, then it may take a few minutes to detect (this is commonly
+	 * referred to as a "ping timeout").
+	 * <p>
+	 * If you wish to get your IRC bot to automatically rejoin a server after
+	 * the connection has been lost, then this is probably the ideal method to
+	 * override to implement such functionality.
+	 * 
+	 * @param bot the current instance of the bot
+	 */
+	public void onDisconnect(ExtendedPircBot bot) {}
+
+	/**
 	 * This method is called whenever someone (possibly us) quits from the
 	 * server. We will only observe this if the user was in one of the channels
 	 * to which we are connected.
