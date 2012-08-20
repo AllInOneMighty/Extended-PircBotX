@@ -12,7 +12,9 @@
 	<repositories>
 		<repository>
 			<id>modular-pircbot</id>
-			<releases>true</releases>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 			<url>https://raw.github.com/Bhasmithal/maven/master/releases/</url>
 		</repository>
 	</repositories>
