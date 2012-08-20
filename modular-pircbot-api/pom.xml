@@ -9,7 +9,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<scm>
-		<developerConnection>scm:git:https://github.com/Bhasmithal/Modular-PircBot.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/Bhasmithal/Modular-PircBot.git/modular-pircbot-api</developerConnection>
 	</scm>
 	<repositories>
 		<repository>
