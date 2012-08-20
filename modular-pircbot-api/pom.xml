@@ -1,25 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pircbot</groupId>
 	<artifactId>modular-pircbot-api</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>modular-pircbot-api</name>
+	<parent>
+		<groupId>pircbot</groupId>
+		<artifactId>modular-pircbot-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<repositories>
-		<repository>
-			<id>apache-maven2</id>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache-maven2</id>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<dependencies>
 		<dependency>
 			<groupId>pircbot</groupId>
@@ -31,15 +23,9 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
 				<configuration>
 					<failIfNoTests>false</failIfNoTests>
 				</configuration>
