@@ -10,5 +10,5 @@ needs. As a starting point, you may want to give a look at the AuthMode,
 JoinOnServerResponse and Quit modules.
 
 This project is fully documented; you should give a close look to the provided
-modules to understand how they work. Please check the wiki for additional
+modules to understand how they work. Please check the <a href="wiki">wiki</a> for additional
 information.
