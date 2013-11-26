@@ -17,6 +17,16 @@ public class AuthModePircModule extends AbstractPircModule {
 	
 	private String modes;
 
+  /**
+   * Creates a new AUTH/MODE module that sets the mode but does not authenticate.
+   * 
+   * @param modes the modes to request with the <tt>MODE</tt> command; this
+   *        parameter cannot be <tt>null</tt> or empty
+   */
+  public AuthModePircModule(String modes) {
+    this.modes = modes;
+  }
+
 	/**
 	 * Creates a new AUTH/MODE module.
 	 * 
@@ -34,9 +44,13 @@ public class AuthModePircModule extends AbstractPircModule {
 
 	@Override
 	public void onConnect(ExtendedPircBot bot) {
-		bot.sendRawLineViaQueue("auth " + authUsername + " " + authPassword);
+    if (StringUtils.isNotBlank(authUsername)) {
+      bot.sendRawLineViaQueue(
+        String.format("auth %s %s", authUsername, authPassword));
+    }
 		if (StringUtils.isNotBlank(modes)) {
-			bot.sendRawLineViaQueue("mode " + bot.getNick() + " " + modes);
+			bot.sendRawLineViaQueue(
+        String.format("mode %s %s", bot.getNick(), modes));
 		}
 	}
 	
