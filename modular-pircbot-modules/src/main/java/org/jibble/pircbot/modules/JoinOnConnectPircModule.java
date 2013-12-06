@@ -32,7 +32,7 @@ public class JoinOnConnectPircModule extends AbstractPircModule {
   @Override
   public void onConnect(ExtendedPircBot bot) {
     for (String channel : channels) {
-      LOGGER.info("Joining channel {}", channel);
+      LOGGER.info("Joining channel: {}", channel);
       bot.joinChannel(channel);
     }
   }
