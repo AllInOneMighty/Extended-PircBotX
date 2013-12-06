@@ -1,5 +1,6 @@
 package org.jibble.pircbot.modules;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.jibble.pircbot.ExtendedPircBot;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 
 /**
  * Makes the bot quit when an admin sends a custom message in private chat to the bot. The quit
@@ -30,7 +32,9 @@ public class QuitPircModule extends AbstractPircModule implements PrivatePircMod
    *        <tt>null</tt> or empty if you do not want a quit message
    */
   public QuitPircModule(String trigger, Optional<String> quitMessage) {
-    this.trigger = checkNotNull(trigger);
+    checkArgument(!Strings.isNullOrEmpty(trigger));
+
+    this.trigger = trigger;
     this.quitMessage = checkNotNull(quitMessage);
   }
 
