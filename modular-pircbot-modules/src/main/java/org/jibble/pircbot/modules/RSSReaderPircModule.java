@@ -172,6 +172,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 		}
 
 		// Now send info to the user
+		@SuppressWarnings("unchecked")
 		List<SyndEntry> entries = lastFeedRetrieved.getEntries();
 		for (int i = 0; i < defaultToDisplay && i < entries.size(); i++) {
 			bot.sendNotice(sender, buildMessageFromNewsEntry(entries.get(i)));
@@ -186,6 +187,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 		}
 		
 		// Now send info to the user
+		@SuppressWarnings("unchecked")
 		List<SyndEntry> entries = lastFeedRetrieved.getEntries();
 		for (int i = 0; i < defaultToDisplay && i < entries.size(); i++) {
 			bot.sendMessage(sender, buildMessageFromNewsEntry(entries.get(i)));
@@ -215,6 +217,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 
 		Date mostRecentPublishDate = null;
 
+		@SuppressWarnings("unchecked")
 		List<SyndEntry> entries = feed.getEntries();
 		int displayed = 0;
 		while (displayed < defaultToDisplay && displayed < entries.size()) {
