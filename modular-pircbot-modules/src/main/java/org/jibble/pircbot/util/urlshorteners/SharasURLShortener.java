@@ -27,8 +27,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Optional;
 
 /**
- * Shortens URLs using the <a href="http://shar.as/">http://shar.as/</a> service. This class caches
- * all shortened URLs thus it is recommended for URLs that are likely to be reused by the bot.
+ * Shortens URLs using the <a href="http://shar.as/">http://shar.as/</a> service. This class can
+ * optionally cache all shortened URLs. It is recommended if you often see URLs that are likely to
+ * be reused by the bot.
  * 
  * @author Emmanuel Cron
  */
@@ -99,19 +100,24 @@ public class SharasURLShortener implements URLShortener {
 
     Path cachePath = optCachePath.get();
     if (!Files.isDirectory(cachePath)) {
-      LOGGER.info("Cache file folder does not exist, creating new cache in memory: {}",
-          cachePath.toString());
-      return;
+      try {
+        LOGGER.info("Creating cache folder: {}", cachePath.toAbsolutePath().toString());
+        Files.createDirectories(cachePath);
+      } catch (IOException ioe) {
+        LOGGER.error("Could not create cache folder, using memory-only cache", ioe);
+        optCachePath = Optional.absent();
+        return;
+      }
     }
 
     File cacheFile = cachePath.resolve(Paths.get(CACHE_FILE_NAME)).toFile();
     if (!cacheFile.exists()) {
-      LOGGER.info("Cache file does not exist, creating new cache in memory: {}",
-          cacheFile.getAbsolutePath());
+      LOGGER.info("Cache file does not exist, creating new cache in memory: {}", cachePath
+          .toAbsolutePath().toString());
       return;
     }
 
-    LOGGER.info("Cache found at: {}", cacheFile.toString());
+    LOGGER.info("Cache found at: {}", cacheFile.getAbsolutePath());
 
     try (InputStream inputStream = new FileInputStream(cacheFile);
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -127,13 +133,14 @@ public class SharasURLShortener implements URLShortener {
 
   private synchronized void saveCache() {
     if (!optCachePath.isPresent()) {
-      LOGGER.warn("Cache path is not set, saving to memory-only cache");
+      // No need for a warning; just ignoring the save
       return;
     }
 
     Path cachePath = optCachePath.get();
     if (!Files.isDirectory(cachePath)) {
-      LOGGER.info("Cache file folder does not exist, aborting save: {}", cachePath.toString());
+      LOGGER.error("Cache file folder does not exist, aborting save: {}", cachePath
+          .toAbsolutePath().toString());
       return;
     }
 

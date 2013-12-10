@@ -79,8 +79,15 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
   public RSSReaderPircModule(String trigger, Path cachePath, URL feedURL, int checkInterval) {
     checkArgument(!Strings.isNullOrEmpty(trigger));
     checkNotNull(cachePath, "No cache path specified");
-    checkArgument(Files.isDirectory(cachePath), "Cache path isn't a directory: %s",
-        cachePath.toString());
+    if (!Files.exists(cachePath)) {
+      try {
+        Files.createDirectories(cachePath);
+      } catch (IOException ioe) {
+        throw new IllegalStateException("Could not create necessary directory for feed cache", ioe);
+      }
+    }
+    checkArgument(Files.isDirectory(cachePath), "Cache path isn't a directory: %s", cachePath
+        .toAbsolutePath().toString());
     checkArgument(checkInterval > 0, "RSS feed check interval must be > 0");
 
     this.trigger = trigger;

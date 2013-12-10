@@ -41,7 +41,7 @@ public class JoinOnServerResponsePircModule extends AbstractPircModule {
    */
   public JoinOnServerResponsePircModule(int triggerCode, List<String> channels) {
     checkNotNull(channels, "No specified channels to join");
-    checkArgument(channels.size() <= 0, "The list of channels to join is empty");
+    checkArgument(channels.size() > 0, "The list of channels to join is empty");
 
     this.triggerCode = triggerCode;
     this.channels = ImmutableList.copyOf(channels);
