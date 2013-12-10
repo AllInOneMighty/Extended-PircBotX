@@ -67,6 +67,7 @@ public class ModularPircBot extends ExtendedPircBot {
   public ModularPircBot(String host, List<Integer> ports, String name) {
     checkArgument(!Strings.isNullOrEmpty(host), "No specified host to connect to");
     checkNotNull(ports, "No specified ports to connect to");
+    checkArgument(ports.size() > 0, "List of ports to connect to is empty");
     checkArgument(!Strings.isNullOrEmpty(name), "Bot does not have a name");
 
     this.host = host;
