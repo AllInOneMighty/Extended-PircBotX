@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.jibble.pircbot.ExtendedPircBot;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -25,6 +26,8 @@ import com.google.common.collect.ImmutableList;
  * @author Emmanuel Cron
  */
 public class WelcomeNoticesPircModule extends AbstractPircModule {
+  private static final String NO_HELP_TRIGGER_SET = "<no help trigger set>";
+
   private List<String> welcomeNotices;
 
   /**
@@ -47,8 +50,15 @@ public class WelcomeNoticesPircModule extends AbstractPircModule {
       return;
     }
 
-    String helpTrigger = "!" + bot.getHelpTrigger();
-    String helpPrivateTrigger = bot.getHelpTrigger();
+    String helpTrigger;
+    String helpPrivateTrigger;
+    if (Strings.isNullOrEmpty(bot.getHelpTrigger())) {
+      helpTrigger = NO_HELP_TRIGGER_SET;
+      helpPrivateTrigger = NO_HELP_TRIGGER_SET;
+    } else {
+      helpTrigger = "!" + bot.getHelpTrigger();
+      helpPrivateTrigger = bot.getHelpTrigger();
+    }
 
     for (String welcomeNotice : welcomeNotices) {
       welcomeNotice = welcomeNotice.replace("{botname}", bot.getNick());

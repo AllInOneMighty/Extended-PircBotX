@@ -22,17 +22,21 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.jibble.pircbot.ExtendedPircBot;
 import org.jibble.pircbot.User;
-import org.joda.time.DateMidnight;
+import org.jibble.pircbot.util.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -165,14 +169,7 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 
     private ChatLoggerEvent(String defaultFormat) {
       this.defaultFormat = defaultFormat;
-      this.requiredReplacements = 0;
-
-      int searchIndex = 0;
-      while ((searchIndex = defaultFormat.indexOf("%s", searchIndex)) != -1) {
-        requiredReplacements++;
-        // The string is 2 chars long
-        searchIndex += 2;
-      }
+      this.requiredReplacements = StringUtils.countMatches(defaultFormat, "%s");
     }
 
     /**
@@ -196,9 +193,9 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 
   private Map<ChatLoggerEvent, String> eventFormats = new HashMap<ChatLoggerEvent, String>();
 
-  private String logsPath;
+  private Path logsPath;
 
-  private DateMidnight logFileDate;
+  private DateTime logFileDate;
 
   private File logFile;
 
@@ -206,7 +203,7 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 
   private String charset;
 
-  private FastDateFormat timestampFormat;
+  private DateTimeFormatter timestampFormat;
 
   private boolean checkedFormats;
 
@@ -216,11 +213,14 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
    * @param logsPath the folder where to store the chat log files
    * @param charset the charset to use when writing in the log files
    */
-  public ChatLoggerPircModule(String logsPath, String charset) {
-    checkArgument(!Strings.isNullOrEmpty(logsPath), "No chat logs path specified");
+  public ChatLoggerPircModule(Path logsPath, String charset) {
+    checkNotNull(logsPath, "No chat logs path specified");
+    checkArgument(Files.isDirectory(logsPath), "Logs path is not a directory: %s",
+        logsPath.toString());
+    checkArgument(!Strings.isNullOrEmpty(charset), "No chat logs file encoding specified");
 
     this.logsPath = logsPath;
-    this.charset = checkNotNull(charset);
+    this.charset = charset;
   }
 
   /**
@@ -246,7 +246,7 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
   public void setEventFormat(ChatLoggerEvent event, String format) {
     checkNotNull(event);
 
-    if (StringUtils.isBlank(format)) {
+    if (Strings.isNullOrEmpty(format)) {
       eventFormats.put(event, null);
       return;
     }
@@ -269,20 +269,20 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
   }
 
   /**
-   * Sets the timestamp format to use in the chat logs. If the given pattern is empty (or i you
+   * Sets the timestamp format to use in the chat logs. If the given pattern is empty (or if you
    * never call this method), no timestamp will be used in the logs.
    * <p>
-   * Format must be compatible with a {@link SimpleDateFormat}.
+   * Format must be compatible with a {@link DateTimeFormat}.
    * 
    * @param pattern the date/time pattern to use for each message in the chat logs
    * 
    * @throws IllegalArgumentException if the pattern is invalid
    */
   public void setTimestampFormat(String pattern) {
-    if (StringUtils.isBlank(pattern)) {
+    if (Strings.isNullOrEmpty(pattern)) {
       timestampFormat = null;
     } else {
-      timestampFormat = FastDateFormat.getInstance(pattern);
+      timestampFormat = DateTimeFormat.forPattern(pattern);
     }
   }
 
@@ -394,18 +394,17 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
 
     // Cannot be blank here, check is done in setEventFormat()
     if (format == null) {
-      // Means a key was found but it was set to nothing (= wishing not to
-      // log these events)
+      // Means a key was found but it was set to nothing (= wishing not to log these events)
       return;
     }
 
     String message = String.format(format, args);
     if (timestampFormat != null) {
-      message = "[" + timestampFormat.format(System.currentTimeMillis()) + "] " + message;
+      message = "[" + timestampFormat.print(System.currentTimeMillis()) + "] " + message;
     }
 
     // Create new file when date changes or if none exist
-    if (logFileDate == null || new DateMidnight().isAfter(logFileDate)) {
+    if (logFileDate == null || new DateTime().withTimeAtStartOfDay().isAfter(logFileDate)) {
       // First close old writer if it exists
       if (logFileWriter != null) {
         try {
@@ -414,17 +413,21 @@ public class ChatLoggerPircModule extends AbstractStoppablePircModule {
           LOGGER.warn("Could not close writer to previous chat log file", ioe);
         }
       }
+      logFileWriter = null;
 
-      logFileDate = new DateMidnight();
-      String logFileDateStr = new SimpleDateFormat("yyyy_MM_dd").format(logFileDate.toDate());
-      logFile = new File(logsPath, channel.toLowerCase() + "-" + logFileDateStr + ".log");
+      logFileDate = new DateTime().withTimeAtStartOfDay();
+      String logFileDateStr = DateTimeFormat.forPattern("yyyy_MM_dd").print(logFileDate);
+      logFile =
+          logsPath.resolve(Paths.get(channel.toLowerCase() + "-" + logFileDateStr + ".log"))
+              .toFile();
 
       try {
         OutputStream outputStream = new FileOutputStream(logFile, true);
         Writer writer = new OutputStreamWriter(outputStream, charset);
         logFileWriter = new BufferedWriter(writer);
       } catch (IOException ioe) {
-        LOGGER.error("LOGGING WILL BE DISABLED: Could not create writer to chat log file", ioe);
+        LOGGER.error("LOGGING DISABLED: Could not create writer to chat log file", ioe);
+        return;
       }
     }
 

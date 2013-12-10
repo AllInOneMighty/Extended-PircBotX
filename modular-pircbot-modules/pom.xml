@@ -24,7 +24,7 @@
     <dependency>
       <groupId>pircbot</groupId>
       <artifactId>modular-pircbot-api</artifactId>
-      <version>1.0</version>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>rome</groupId>
@@ -34,11 +34,6 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

@@ -1,5 +1,6 @@
 package org.jibble.pircbot.modules;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
@@ -26,7 +27,10 @@ public class JoinOnConnectPircModule extends AbstractPircModule {
    * @param channels the channels to join when the bot is connected
    */
   public JoinOnConnectPircModule(List<String> channels) {
-    this.channels = ImmutableList.copyOf(checkNotNull(channels));
+    checkNotNull(channels, "No specified channels to join");
+    checkArgument(channels.size() <= 0, "The list of channels to join is empty");
+
+    this.channels = ImmutableList.copyOf(checkNotNull(channels, "No channels specified"));
   }
 
   @Override

@@ -5,6 +5,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +28,7 @@ import com.sun.syndication.io.FeedException;
 
 /**
  * Displays any new item of a given RSS feed in all public channels the bot has joined. Users can
- * also ask the bot to send the last 3 entries (amount is customizable) as <tt>NOTICE</tt> when in a
+ * also ask the bot to send the last 3 entries (amount is customizable) as {@code NOTICE} when in a
  * public channel or as a normal message when talking privately to the bot.
  * <p>
  * This module supports the use of an URL shortener service to display smaller messages when
@@ -74,12 +76,15 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
    * @param feedURL URL where to find the feed to retrieve
    * @param checkInterval interval, in seconds, between two feed fetching operations
    */
-  public RSSReaderPircModule(String trigger, String cachePath, URL feedURL, int checkInterval) {
+  public RSSReaderPircModule(String trigger, Path cachePath, URL feedURL, int checkInterval) {
     checkArgument(!Strings.isNullOrEmpty(trigger));
-    checkArgument(!Strings.isNullOrEmpty(cachePath), "No cache path specified");
+    checkNotNull(cachePath, "No cache path specified");
+    checkArgument(Files.isDirectory(cachePath), "Cache path isn't a directory: %s",
+        cachePath.toString());
+    checkArgument(checkInterval > 0, "RSS feed check interval must be > 0");
 
     this.trigger = trigger;
-    this.feedFetcherCache = new DiskFeedInfoCache(cachePath);
+    this.feedFetcherCache = new DiskFeedInfoCache(cachePath.toString());
     this.feedURL = checkNotNull(feedURL);
     this.checkInterval = checkInterval * 1000;
   }
@@ -238,7 +243,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 
 
       if (entry.getPublishedDate().after(lastAnnouncedPublishDate)) {
-        // Anounce the latest news
+        // Announce the latest news
         for (String channel : bot.getChannels()) {
           bot.sendMessage(channel, buildMessageFromNewsEntry(entry));
         }

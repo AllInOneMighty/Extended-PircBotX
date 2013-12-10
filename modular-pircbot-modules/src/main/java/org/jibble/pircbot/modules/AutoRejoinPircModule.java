@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Makes the bot try to rejoin any channel when it is kicked for any reason.
+ * Makes the bot try to rejoin channels when it is kicked from one for any reason.
  * 
  * @author Emmanuel Cron
  */

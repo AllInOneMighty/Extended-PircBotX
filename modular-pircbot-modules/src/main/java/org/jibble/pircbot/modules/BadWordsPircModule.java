@@ -1,6 +1,6 @@
 package org.jibble.pircbot.modules;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +10,12 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jibble.pircbot.ExtendedPircBot;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
 
 /**
  * Loads a list of words that are forbidden on any public chat on which the bot is connected. If any
@@ -50,14 +51,18 @@ public class BadWordsPircModule extends AbstractPircModule {
   /**
    * Creates a new badwords module.
    * 
-   * @param badwordsPath path from the root of the claspath to the file containing the bad words;
+   * @param badwordsPath path from the root of the classpath to the file containing the bad words;
    *        each word must be on a new line
    * @param encoding the encoding in which the file is stored
    * @param kickReason the custom reason that will be displayed when a user is kicked by the bot
    */
   public BadWordsPircModule(String badwordsPath, String encoding, String kickReason) {
-    this.kickReason = checkNotNull(kickReason);
-    loadBadWords(checkNotNull(badwordsPath), checkNotNull(encoding));
+    checkArgument(!Strings.isNullOrEmpty(badwordsPath), "No path to badwords file given");
+    checkArgument(!Strings.isNullOrEmpty(encoding), "Badwords file encoding not specified");
+    checkArgument(!Strings.isNullOrEmpty(kickReason), "No kick reason given");
+
+    this.kickReason = kickReason;
+    loadBadWords(badwordsPath, encoding);
   }
 
   @Override
@@ -87,8 +92,7 @@ public class BadWordsPircModule extends AbstractPircModule {
   // internal helpers
 
   private void loadBadWords(String badwordsPath, String encoding) {
-    InputStream input = ClassLoader.getSystemResourceAsStream(badwordsPath);
-    try {
+    try (InputStream input = ClassLoader.getSystemResourceAsStream(badwordsPath)) {
       Reader reader = new InputStreamReader(input, encoding);
       BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -96,19 +100,13 @@ public class BadWordsPircModule extends AbstractPircModule {
       while ((line = bufferedReader.readLine()) != null) {
         // trim afterwards to avoid NPE
         line = line.trim();
-        if (StringUtils.isNotBlank(line) && !line.startsWith("#")) {
+        if (!line.isEmpty() && !line.startsWith("#")) {
           // Put everything small case for easier comparison
           BADWORDS.add(" " + line.toLowerCase() + " ");
         }
       }
     } catch (IOException ioe) {
       LOGGER.error("Could not read badwords file, ignoring", ioe);
-    } finally {
-      try {
-        input.close();
-      } catch (IOException ioe) {
-        LOGGER.warn("Could not close badwords input stream", ioe);
-      }
     }
   }
 }

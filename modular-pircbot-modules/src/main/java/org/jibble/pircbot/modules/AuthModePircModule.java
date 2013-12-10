@@ -29,7 +29,8 @@ public class AuthModePircModule extends AbstractPircModule {
    *        {@code null} or empty
    */
   public AuthModePircModule(String modes) {
-    checkArgument(!Strings.isNullOrEmpty(modes));
+    checkArgument(!Strings.isNullOrEmpty(modes), "Modes must be specified if not authenticating");
+
     this.modes = Optional.of(modes);
   }
 
@@ -41,8 +42,8 @@ public class AuthModePircModule extends AbstractPircModule {
    * @param modes the modes to request with the {@code MODE} command; optional
    */
   public AuthModePircModule(String authUsername, String authPassword, Optional<String> modes) {
-    checkArgument(!Strings.isNullOrEmpty(authUsername));
-    checkArgument(!Strings.isNullOrEmpty(authPassword));
+    checkArgument(!Strings.isNullOrEmpty(authUsername), "Username must be provided");
+    checkArgument(!Strings.isNullOrEmpty(authPassword), "Password must be provided");
     if (checkNotNull(modes).isPresent()) {
       checkArgument(!Strings.isNullOrEmpty(modes.get()), "If specified, modes can't be empty");
     }

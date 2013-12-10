@@ -17,7 +17,7 @@ import com.google.common.base.Strings;
  * <p>
  * On instantiation, the developer needs to provide an implementation of {@link FactsReader} in
  * order to load the facts into memory. You should check which readers are available in the
- * <tt>org.jibble.pircbot.modules.facts.*</tt> package before developing your own.
+ * {@code org.jibble.pircbot.modules.facts.*} package before developing your own.
  * <p>
  * This module can only be triggered on a public chat.
  * 

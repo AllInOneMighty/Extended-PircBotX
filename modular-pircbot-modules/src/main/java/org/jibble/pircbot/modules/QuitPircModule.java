@@ -1,18 +1,16 @@
 package org.jibble.pircbot.modules;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.jibble.pircbot.ExtendedPircBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 
 /**
  * Makes the bot quit when an admin sends a custom message in private chat to the bot. The quit
- * message of the bot can also be customized.
+ * message of the bot can be customized.
  * 
  * @author Emmanuel Cron
  */
@@ -22,20 +20,20 @@ public class QuitPircModule extends AbstractPircModule implements PrivatePircMod
 
   private String trigger;
 
-  private Optional<String> quitMessage;
+  private String quitMessage;
 
   /**
    * Creates a new quit module.
    * 
    * @param trigger the message that an admin needs to send to the bot to make it quit
    * @param quitMessage the message displayed to all users when the bot quits; this message can be
-   *        <tt>null</tt> or empty if you do not want a quit message
+   *        {@code null} or empty if you do not want a quit message
    */
-  public QuitPircModule(String trigger, Optional<String> quitMessage) {
+  public QuitPircModule(String trigger, String quitMessage) {
     checkArgument(!Strings.isNullOrEmpty(trigger));
 
     this.trigger = trigger;
-    this.quitMessage = checkNotNull(quitMessage);
+    this.quitMessage = quitMessage;
   }
 
   @Override
@@ -54,8 +52,8 @@ public class QuitPircModule extends AbstractPircModule implements PrivatePircMod
     LOGGER.info("Bot was requested to quit by {}", sender);
     bot.setQuitRequested(true);
 
-    if (quitMessage.isPresent()) {
-      bot.quitServer(quitMessage.get());
+    if (!Strings.isNullOrEmpty(quitMessage)) {
+      bot.quitServer(quitMessage);
     } else {
       bot.quitServer();
     }

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * list of provided regular expression. These expressions and replies must be provided in a
  * properties file as described below.
  * <p>
- * You can define a probability of trigger to make the bot reply only sometimes. This probability
+ * You can define a trigger probability to make the bot reply only sometimes. This probability
  * should be between 0 (never triggered) and 100 (always triggered). For example, if you set a
  * probability of 50 for a specific set of regular expressions, the module will be triggered only
  * half of the time.
@@ -159,20 +159,13 @@ public class OnActionPircModule extends AbstractPircModule {
   }
 
   private void loadActions(String actionsPath, String encoding) {
-    InputStream input = ClassLoader.getSystemResourceAsStream(actionsPath);
     Properties properties = new Properties();
-    try {
+    try (InputStream input = ClassLoader.getSystemResourceAsStream(actionsPath)) {
       Reader reader = new InputStreamReader(input, encoding);
       properties.load(reader);
     } catch (IOException ioe) {
       LOGGER.error("Could not load actions file, they will not be available", ioe);
       return;
-    } finally {
-      try {
-        input.close();
-      } catch (IOException ioe) {
-        LOGGER.warn("Could not close actions input stream", ioe);
-      }
     }
 
     List<String> processedProperties = new ArrayList<String>();
