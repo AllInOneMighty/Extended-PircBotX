@@ -20,6 +20,8 @@ public class QuitPircModule extends AbstractPircModule implements PrivatePircMod
 
   private String trigger;
 
+  private String helpMessage;
+
   private String quitMessage;
 
   /**
@@ -39,6 +41,15 @@ public class QuitPircModule extends AbstractPircModule implements PrivatePircMod
   @Override
   public String getPrivateTriggerMessage() {
     return trigger;
+  }
+
+  public void setHelp(String helpMessage) {
+    this.helpMessage = helpMessage;
+  }
+
+  @Override
+  public String getHelpText() {
+    return helpMessage;
   }
 
   @Override

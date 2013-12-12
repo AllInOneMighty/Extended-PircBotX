@@ -55,7 +55,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
 
   private SyndFeed lastFeedRetrieved;
 
-  private int checkInterval;
+  private int checkIntervalMillis;
 
   private URLShortener urlShortener;
 
@@ -93,7 +93,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
     this.trigger = trigger;
     this.feedFetcherCache = new DiskFeedInfoCache(cachePath.toString());
     this.feedURL = checkNotNull(feedURL);
-    this.checkInterval = checkInterval * 1000;
+    this.checkIntervalMillis = checkInterval * 1000;
   }
 
   /**
@@ -158,7 +158,7 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
           lastFeedRetrieved = feed;
           announceUndisplayedNews(bot, lastFeedRetrieved);
         }
-        nextCheck = System.currentTimeMillis() + checkInterval;
+        nextCheck = System.currentTimeMillis() + checkIntervalMillis;
       } else {
         try {
           Thread.sleep(500);
@@ -247,7 +247,6 @@ public class RSSReaderPircModule extends AbstractRunnablePircModule implements P
           mostRecentPublishDate = entry.getPublishedDate();
         }
       }
-
 
       if (entry.getPublishedDate().after(lastAnnouncedPublishDate)) {
         // Announce the latest news
