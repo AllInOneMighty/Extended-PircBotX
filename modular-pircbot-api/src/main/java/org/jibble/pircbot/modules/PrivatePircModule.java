@@ -7,7 +7,7 @@ import org.jibble.pircbot.ExtendedPircBot;
  * 
  * @author Emmanuel Cron
  */
-public interface PrivatePircModule {
+public interface PrivatePircModule extends PircModule {
   /**
    * Returns the exact word that a user has to say in a private chat to activate this module.
    * 

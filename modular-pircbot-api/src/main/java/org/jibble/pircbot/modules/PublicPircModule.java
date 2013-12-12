@@ -7,7 +7,7 @@ import org.jibble.pircbot.ExtendedPircBot;
  * 
  * @author Emmanuel Cron
  */
-public interface PublicPircModule {
+public interface PublicPircModule extends PircModule {
   /**
    * Returns the word that a user has to say in a public channel chat to activate this module. Note
    * that an exclamation mark will have to prefix this word for the bot to recognize it.
@@ -18,13 +18,6 @@ public interface PublicPircModule {
    * @return the trigger message of the module
    */
   String getTriggerMessage();
-
-  /**
-   * Returns a single line of text explaining what this module does.
-   * 
-   * @return the description of this module or {@code null} if no description is available
-   */
-  String getHelpText();
 
   /**
    * This method is called when this module has been activated in a public channel by a user using
