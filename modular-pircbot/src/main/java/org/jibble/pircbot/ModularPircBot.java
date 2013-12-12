@@ -16,6 +16,7 @@ import org.jibble.pircbot.modules.AbstractPircModule;
 import org.jibble.pircbot.modules.AbstractRunnablePircModule;
 import org.jibble.pircbot.modules.AbstractStoppablePircModule;
 import org.jibble.pircbot.modules.HelpPircModule;
+import org.jibble.pircbot.modules.PircModule;
 import org.jibble.pircbot.modules.PrivatePircModule;
 import org.jibble.pircbot.modules.PublicPircModule;
 import org.slf4j.Logger;
@@ -345,21 +346,7 @@ public class ModularPircBot extends ExtendedPircBot {
     List<String> help = new ArrayList<String>();
 
     Map<String, String> helpMap = new TreeMap<String, String>();
-    if (!inPrivate) {
-      // Public
-      for (AbstractPircModule module : modules) {
-        if (module instanceof PublicPircModule) {
-          PublicPircModule publicModule = (PublicPircModule) module;
-          String trigger = "!" + publicModule.getTriggerMessage();
-          String line = trigger;
-          if (!Strings.isNullOrEmpty(publicModule.getHelpText())) {
-            // We suppose commands are never bigger than 20 characters
-            line = Strings.padEnd(line, 20, ' ') + publicModule.getHelpText();
-          }
-          helpMap.put(trigger, line);
-        }
-      }
-    } else {
+    if (inPrivate) {
       // Private
       boolean isUserOp = isUserOp(nick);
 
@@ -372,16 +359,16 @@ public class ModularPircBot extends ExtendedPircBot {
           }
 
           String trigger = privateModule.getPrivateTriggerMessage();
-          String line = trigger;
-          // Adding public help if it is available
-          if (module instanceof PublicPircModule) {
-            PublicPircModule publicModule = (PublicPircModule) module;
-            if (!Strings.isNullOrEmpty(publicModule.getHelpText())) {
-              // We suppose commands are never bigger than 20 characters
-              line = Strings.padEnd(line, 20, ' ') + publicModule.getHelpText();
-            }
-          }
-          helpMap.put(trigger, line);
+          helpMap.put(trigger, buildHelpLine(trigger, privateModule));
+        }
+      }
+    } else {
+      // Public
+      for (AbstractPircModule module : modules) {
+        if (module instanceof PublicPircModule) {
+          PublicPircModule publicModule = (PublicPircModule) module;
+          String trigger = "!" + publicModule.getTriggerMessage();
+          helpMap.put(trigger, buildHelpLine(trigger, publicModule));
         }
       }
     }
@@ -391,6 +378,14 @@ public class ModularPircBot extends ExtendedPircBot {
   }
 
   // internal helpers
+
+  private String buildHelpLine(String trigger, PircModule module) {
+    if (!Strings.isNullOrEmpty(module.getHelpText())) {
+      // We suppose commands are never bigger than 20 characters
+      return Strings.padEnd(trigger, 20, ' ') + module.getHelpText();
+    }
+    return trigger;
+  }
 
   private boolean isUserOp(String nick) {
     String[] channels = getChannels();
