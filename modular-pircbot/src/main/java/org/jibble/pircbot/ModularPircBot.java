@@ -117,17 +117,28 @@ public class ModularPircBot extends ExtendedPircBot {
     }
 
     int i = 0;
-    do {
+    while (true) {
       try {
         LOGGER.info("Connecting to {}:{}", host, ports.get(i));
         connect(host, ports.get(i));
+        return;
       } catch (IrcException ie) {
         LOGGER.warn("IRC Exception while connecting to the server", ie);
       } catch (IOException ioe) {
         LOGGER.error("I/O Exception while connecting to the server", ioe);
       }
+
+      // Next port on next loop
       i = ++i % ports.size();
-    } while (!isConnected());
+
+      // Sleep the thread to avoid network spam
+      try {
+        LOGGER.info("Sleeping 1 second...");
+        Thread.sleep(1000);
+      } catch (InterruptedException ie) {
+        LOGGER.error("Could not sleep connection thread, your logs might get huge!");
+      }
+    }
   }
 
   @Override
