@@ -1,6 +1,6 @@
 package org.jibble.pircbot.listeners;
 
-import org.pircbotx.PircBotX;
+import org.jibble.pircbot.ExtendedPircBotX;
 import org.pircbotx.hooks.events.MessageEvent;
 
 /**
@@ -24,5 +24,5 @@ public interface PublicListener extends TriggerableListener {
    *
    * @param event the trigger event
    */
-  void onTriggerMessage(MessageEvent<? extends PircBotX> event);
+  void onTriggerMessage(MessageEvent<ExtendedPircBotX> event);
 }

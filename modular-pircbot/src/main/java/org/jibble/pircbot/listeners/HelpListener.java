@@ -64,12 +64,11 @@ public final class HelpListener extends ListenerAdapter<PircBotX> implements Pub
   }
 
   @Override
-  public void onTriggerMessage(MessageEvent<? extends PircBotX> event) {
-    ExtendedPircBotX extendedBot = (ExtendedPircBotX) event.getBot();
+  public void onTriggerMessage(MessageEvent<ExtendedPircBotX> event) {
     if (!Strings.isNullOrEmpty(helpIntro)) {
       event.getUser().send().notice(helpIntro);
     }
-    for (String line : extendedBot.buildHelp(event.getUser(), false)) {
+    for (String line : event.getBot().buildHelp(event.getUser(), false)) {
       event.getUser().send().notice(line);
     }
   }
@@ -80,12 +79,11 @@ public final class HelpListener extends ListenerAdapter<PircBotX> implements Pub
   }
 
   @Override
-  public void onTriggerPrivateMessage(PrivateMessageEvent<? extends PircBotX> event) {
-    ExtendedPircBotX extendedBot = (ExtendedPircBotX) event.getBot();
+  public void onTriggerPrivateMessage(PrivateMessageEvent<ExtendedPircBotX> event) {
     if (!Strings.isNullOrEmpty(helpIntro)) {
       event.respond(helpIntro);
     }
-    for (String line : extendedBot.buildHelp(event.getUser(), true)) {
+    for (String line : event.getBot().buildHelp(event.getUser(), true)) {
       event.respond(line);
     }
   }

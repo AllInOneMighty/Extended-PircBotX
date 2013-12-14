@@ -1,6 +1,6 @@
 package org.jibble.pircbot.listeners;
 
-import org.pircbotx.PircBotX;
+import org.jibble.pircbot.ExtendedPircBotX;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 
 /**
@@ -20,7 +20,7 @@ public interface PrivateListener extends TriggerableListener {
    *
    * @param event the trigger event
    */
-  void onTriggerPrivateMessage(PrivateMessageEvent<? extends PircBotX> event);
+  void onTriggerPrivateMessage(PrivateMessageEvent<ExtendedPircBotX> event);
 
   /**
    * Returns whether this listener can only be triggered by an OP or not.
