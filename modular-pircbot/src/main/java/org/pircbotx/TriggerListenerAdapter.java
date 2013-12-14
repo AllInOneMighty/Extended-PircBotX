@@ -1,12 +1,12 @@
-package org.jibble.pircbot;
+package org.pircbotx;
 
-import org.jibble.pircbot.listeners.PrivateListener;
-import org.jibble.pircbot.listeners.PublicListener;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.Listener;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
+import org.pircbotx.listeners.PrivateListener;
+import org.pircbotx.listeners.PublicListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

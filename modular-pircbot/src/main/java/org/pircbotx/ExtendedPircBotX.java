@@ -1,4 +1,4 @@
-package org.jibble.pircbot;
+package org.pircbotx;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -8,16 +8,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.jibble.pircbot.listeners.HelpListener;
-import org.jibble.pircbot.listeners.PrivateListener;
-import org.jibble.pircbot.listeners.PublicListener;
-import org.jibble.pircbot.listeners.RunnableListener;
-import org.jibble.pircbot.listeners.TriggerableListener;
 import org.pircbotx.Channel;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.User;
 import org.pircbotx.hooks.Listener;
+import org.pircbotx.listeners.HelpListener;
+import org.pircbotx.listeners.PrivateListener;
+import org.pircbotx.listeners.PublicListener;
+import org.pircbotx.listeners.RunnableListener;
+import org.pircbotx.listeners.TriggerableListener;
 
 import com.google.common.base.Strings;
 

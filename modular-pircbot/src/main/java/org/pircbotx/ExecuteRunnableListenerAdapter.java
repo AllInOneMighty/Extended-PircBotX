@@ -1,12 +1,12 @@
-package org.jibble.pircbot;
+package org.pircbotx;
 
-import org.jibble.pircbot.listeners.RunnableListener;
-import org.jibble.pircbot.listeners.StoppableListener;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.Listener;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.DisconnectEvent;
+import org.pircbotx.listeners.RunnableListener;
+import org.pircbotx.listeners.StoppableListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 /**
  * A stoppable listener. Stoppable listeners have a single method {@link #stop()} that is called

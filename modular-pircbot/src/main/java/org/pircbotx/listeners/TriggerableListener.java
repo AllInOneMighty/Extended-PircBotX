@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 /**
  * A PircBotX listener that can be triggered. This kind of listeners always has some associated help

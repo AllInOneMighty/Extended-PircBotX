@@ -1,6 +1,6 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
-import org.jibble.pircbot.ExtendedPircBotX;
+import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.hooks.events.MessageEvent;
 
 /**

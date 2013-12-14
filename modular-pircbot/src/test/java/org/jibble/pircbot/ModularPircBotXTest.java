@@ -4,11 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.jibble.pircbot.listeners.HelpListener;
 import org.junit.Test;
 import org.pircbotx.Configuration;
+import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.PircBotX;
 import org.pircbotx.User;
+import org.pircbotx.listeners.HelpListener;
 
 public class ModularPircBotXTest {
   @Test
