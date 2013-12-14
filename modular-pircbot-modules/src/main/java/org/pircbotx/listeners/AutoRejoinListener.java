@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;

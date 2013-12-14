@@ -1,10 +1,10 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
-import org.jibble.pircbot.ExtendedPircBotX;
+import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.JoinEvent;
 

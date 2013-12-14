@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners.onaction;
+package org.pircbotx.listeners.onaction;
 
 /**
  * An answer that the bot may use when being triggerd by an action. It automatically replaces the "

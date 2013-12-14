@@ -1,20 +1,20 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.CHANNEL_MODE;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.DISCONNECT;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.JOIN;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.KICK;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.KICK_YOU;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.MESSAGE;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.MODE;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.PART;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.QUIT;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.TOPIC;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.TOPIC_CHANGED;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.TOPIC_SET_BY;
-import static org.jibble.pircbot.listeners.ChatLoggerListener.ChatLoggerEvent.USER_MODE;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.CHANNEL_MODE;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.DISCONNECT;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.JOIN;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.KICK;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.KICK_YOU;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.MESSAGE;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.MODE;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.PART;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.QUIT;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.TOPIC;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.TOPIC_CHANGED;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.TOPIC_SET_BY;
+import static org.pircbotx.listeners.ChatLoggerListener.ChatLoggerEvent.USER_MODE;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.jibble.pircbot.util.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -52,6 +51,8 @@ import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.QuitEvent;
 import org.pircbotx.hooks.events.TopicEvent;
 import org.pircbotx.hooks.events.UserModeEvent;
+import org.pircbotx.listeners.StoppableListener;
+import org.pircbotx.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

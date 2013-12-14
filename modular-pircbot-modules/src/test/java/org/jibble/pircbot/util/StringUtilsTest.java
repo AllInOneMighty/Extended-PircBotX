@@ -3,6 +3,7 @@ package org.jibble.pircbot.util;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.pircbotx.util.StringUtils;
 
 public class StringUtilsTest {
   @Test

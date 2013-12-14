@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import org.jibble.pircbot.util.urlshorteners.SharasURLShortener;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.pircbotx.util.urlshorteners.SharasURLShortener;
 
 import com.google.common.base.Optional;
 

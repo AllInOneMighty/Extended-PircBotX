@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;

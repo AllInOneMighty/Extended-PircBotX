@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners.onaction;
+package org.pircbotx.listeners.onaction;
 
 /**
  * A type of {@link Answer} that is sent to the channel as a normal chat.

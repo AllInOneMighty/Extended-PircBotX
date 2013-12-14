@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -6,11 +6,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 import java.util.Random;
 
-import org.jibble.pircbot.ExtendedPircBotX;
-import org.jibble.pircbot.listeners.facts.FactsReader;
+import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.listeners.PublicListener;
+import org.pircbotx.listeners.facts.FactsReader;
 
 import com.google.common.base.Strings;
 

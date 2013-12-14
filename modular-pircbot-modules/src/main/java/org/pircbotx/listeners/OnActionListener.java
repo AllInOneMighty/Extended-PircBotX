@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -14,17 +14,17 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
 
-import org.jibble.pircbot.listeners.onaction.Answer;
-import org.jibble.pircbot.listeners.onaction.DynamicOnActionPattern;
-import org.jibble.pircbot.listeners.onaction.OnActionAnswers;
-import org.jibble.pircbot.listeners.onaction.OnActionPattern;
-import org.jibble.pircbot.listeners.onaction.OnActionPatternFactory;
-import org.jibble.pircbot.util.PropertiesUtils;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ActionEvent;
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.NickChangeEvent;
+import org.pircbotx.listeners.onaction.Answer;
+import org.pircbotx.listeners.onaction.DynamicOnActionPattern;
+import org.pircbotx.listeners.onaction.OnActionAnswers;
+import org.pircbotx.listeners.onaction.OnActionPattern;
+import org.pircbotx.listeners.onaction.OnActionPatternFactory;
+import org.pircbotx.util.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

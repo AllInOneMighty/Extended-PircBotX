@@ -1,4 +1,4 @@
-package org.jibble.pircbot.util.urlshorteners;
+package org.pircbotx.util.urlshorteners;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jibble.pircbot.util.URLShortener;
+import org.pircbotx.util.URLShortener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

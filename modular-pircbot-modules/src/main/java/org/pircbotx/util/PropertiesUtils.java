@@ -1,4 +1,4 @@
-package org.jibble.pircbot.util;
+package org.pircbotx.util;
 
 import java.util.ArrayList;
 import java.util.List;

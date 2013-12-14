@@ -1,11 +1,12 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.jibble.pircbot.ExtendedPircBotX;
+import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
+import org.pircbotx.listeners.PrivateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

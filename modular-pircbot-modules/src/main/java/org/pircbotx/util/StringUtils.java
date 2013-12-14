@@ -1,4 +1,4 @@
-package org.jibble.pircbot.util;
+package org.pircbotx.util;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

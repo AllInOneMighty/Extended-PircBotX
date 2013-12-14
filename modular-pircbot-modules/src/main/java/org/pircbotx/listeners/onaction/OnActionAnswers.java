@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners.onaction;
+package org.pircbotx.listeners.onaction;
 
 import java.util.ArrayList;
 import java.util.List;

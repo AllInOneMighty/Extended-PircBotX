@@ -1,4 +1,4 @@
-package org.jibble.pircbot.listeners;
+package org.pircbotx.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -10,13 +10,16 @@ import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 
-import org.jibble.pircbot.ExtendedPircBotX;
-import org.jibble.pircbot.util.URLShortener;
 import org.pircbotx.Channel;
+import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
+import org.pircbotx.listeners.PrivateListener;
+import org.pircbotx.listeners.PublicListener;
+import org.pircbotx.listeners.RunnableListener;
+import org.pircbotx.util.URLShortener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

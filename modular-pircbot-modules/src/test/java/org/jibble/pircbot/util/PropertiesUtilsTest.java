@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.junit.Test;
+import org.pircbotx.util.PropertiesUtils;
 
 public class PropertiesUtilsTest {
   @Test
