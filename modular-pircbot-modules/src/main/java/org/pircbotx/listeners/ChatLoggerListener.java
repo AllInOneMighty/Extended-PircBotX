@@ -171,7 +171,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
      * {prefix}{nick} ({login}@{host} Quit ({quitmessage})
      * </pre>
      */
-    QUIT("* %s%s (%s@%s) Quit (%s)"),
+    QUIT("* %s (%s@%s) Quit (%s)"),
     /**
      * When the channel modes (moderated, private, ...) are changed.
      *
@@ -373,8 +373,8 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
   @Override
   public void onQuit(QuitEvent<PircBotX> event) {
     for (Channel channel : event.getBot().getUserBot().getChannels()) {
-      log(channel, QUIT, getUserPrefix(channel, event.getUser()), event.getUser().getNick(), event
-          .getUser().getLogin(), event.getUser().getHostmask(), event.getReason());
+      log(channel, QUIT, event.getUser().getNick(), event.getUser().getLogin(), event.getUser()
+          .getHostmask(), event.getReason());
     }
   }
 
@@ -475,11 +475,6 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
   }
 
   private String getUserPrefix(Channel channel, User user) {
-    if (!user.getChannels().contains(channel)) {
-      // No more on this channel
-      return "";
-    }
-
     Set<UserLevel> userLevels = user.getUserLevels(channel);
     if (userLevels.size() > 0) {
       for (Entry<UserLevel, String> entry : USER_LEVEL_PREFIXES.entrySet()) {
