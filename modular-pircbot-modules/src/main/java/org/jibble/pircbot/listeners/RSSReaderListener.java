@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 
+import org.jibble.pircbot.ExtendedPircBotX;
 import org.jibble.pircbot.util.URLShortener;
 import org.pircbotx.Channel;
 import org.pircbotx.PircBotX;
@@ -180,7 +181,7 @@ public class RSSReaderListener extends ListenerAdapter<PircBotX> implements
   }
 
   @Override
-  public void onTriggerMessage(MessageEvent<? extends PircBotX> event) {
+  public void onTriggerMessage(MessageEvent<ExtendedPircBotX> event) {
     if (lastFeedRetrieved == null) {
       event.getUser().send()
           .notice("I am currently retrieving the news, please retry in a few seconds!");
@@ -196,7 +197,7 @@ public class RSSReaderListener extends ListenerAdapter<PircBotX> implements
   }
 
   @Override
-  public void onTriggerPrivateMessage(PrivateMessageEvent<? extends PircBotX> event) {
+  public void onTriggerPrivateMessage(PrivateMessageEvent<ExtendedPircBotX> event) {
     if (lastFeedRetrieved == null) {
       event.getUser().send()
           .message("I am currently retrieving the news, please retry in a few seconds!");

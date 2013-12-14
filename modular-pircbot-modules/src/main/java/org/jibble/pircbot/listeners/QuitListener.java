@@ -2,6 +2,7 @@ package org.jibble.pircbot.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import org.jibble.pircbot.ExtendedPircBotX;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
@@ -60,7 +61,7 @@ public class QuitListener extends ListenerAdapter<PircBotX> implements PrivateLi
   }
 
   @Override
-  public void onTriggerPrivateMessage(PrivateMessageEvent<? extends PircBotX> event) {
+  public void onTriggerPrivateMessage(PrivateMessageEvent<ExtendedPircBotX> event) {
     LOGGER.info("Bot was requested to quit by {}", event.getUser());
     event.getBot().stopBotReconnect();
 

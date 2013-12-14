@@ -6,6 +6,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 import java.util.Random;
 
+import org.jibble.pircbot.ExtendedPircBotX;
 import org.jibble.pircbot.listeners.facts.FactsReader;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
@@ -66,7 +67,7 @@ public class FactsListener extends ListenerAdapter<PircBotX> implements PublicLi
   }
 
   @Override
-  public void onTriggerMessage(MessageEvent<? extends PircBotX> event) {
+  public void onTriggerMessage(MessageEvent<ExtendedPircBotX> event) {
     if (facts != null) {
       int fact = RANDOM.nextInt(facts.size());
       for (String line : facts.get(fact)) {
