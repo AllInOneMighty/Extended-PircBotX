@@ -16,29 +16,28 @@ import com.google.common.collect.ImmutableList;
 /**
  * Makes the bot join channels on a specific server response.
  * <p>
- * Example: Let's say your bot requests the host protection ({@code +x}) custom mode {@code MODE}
- * from a server. If the bot immediately joins a channel after connecting to the server, even
- * <i>after</i> sending the host protection request, the users of the channel might see the real IP
- * address of the bot before it gets host protection. Therefore, it must only join the channel after
- * receiving the confirmation from the server that the mode was set (i.e. code {@code 396} for
- * servers in the Undernet network such as Quakenet).
+ * <u>Example:</u> Let's say your bot requests the host protection ({@code +x}) custom mode
+ * {@code MODE} from a server. If the bot immediately joins a channel after connecting to the
+ * server, even <i>after</i> sending the host protection request, the users of the channel might see
+ * the real IP address of the bot before it gets host protection. Therefore, it must only join the
+ * channel after receiving the confirmation from the server that the mode was set (i.e. code
+ * {@code 396} for servers in the Undernet network such as Quakenet).
  *
  * @see <a
  *      href="https://www.alien.net.au/irc/irc2numerics.html">https://www.alien.net.au/irc/irc2numerics.html</a>
  * @author Emmanuel Cron
  */
 public class JoinOnServerResponseListener extends ListenerAdapter<PircBotX> {
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(JoinOnServerResponseListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JoinOnServerResponseListener.class);
 
   private int triggerCode;
 
   private List<String> channels;
 
   /**
-   * Creates a new join on server response module.
+   * Creates a new join on server response listener.
    *
-   * @param triggerCode the server response on which the module will be triggered
+   * @param triggerCode the server response on which the listener will join channels
    * @param channels the channels to join on this response
    */
   public JoinOnServerResponseListener(int triggerCode, List<String> channels) {

@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * You can define a trigger probability to make the bot reply only sometimes. This probability
  * should be between 0 (never triggered) and 100 (always triggered). For example, if you set a
- * probability of 50 for a specific set of regular expressions, the module will be triggered only
+ * probability of 50 for a specific set of regular expressions, the listener will be triggered only
  * half of the time.
  * <p>
  * You can use <b>{botname}</b> in your regular expressions to match the bot name.
@@ -47,8 +47,8 @@ import org.slf4j.LoggerFactory;
  * <li><tt>^pokes {botname}$</tt></li>
  * <li><tt>^says hello to {botname}$</tt></li>
  * </ul>
- * 
- * When the module is triggered, the bot replies with either a standard message (private) or an
+ *
+ * When the listener is triggered, the bot replies with either a standard message (private) or an
  * action in the public channel the trigger was done.
  * <p>
  * Examples of private messages and actions:
@@ -58,30 +58,30 @@ import org.slf4j.LoggerFactory;
  * <li>(action) <tt>waves</tt></li>
  * <li>(action) <tt>giggles</tt></li>
  * </ul>
- * 
+ *
  * <h2>Actions file format</h2>
- * The actions file should be formatted using one identifier for each set of actions this module
+ * The actions file should be formatted using one identifier for each set of actions this listener
  * should react to. Each identifier should then be suffixed as described below:
  * <p>
  * <dl>
  * <dt>&lt;identifier&gt;.triggermessages.&lt;number&gt;=</dt>
- * <dd>An action regular expression on which the module can be triggered for this set. The number
+ * <dd>An action regular expression on which the listener can be triggered for this set. The number
  * should start at 1 and be increased for each regular expression.</dd>
  * <dt>&lt;identifier&gt;.probability=</dt>
- * <dd>The probability on 100 with which the module will be triggered. For example, a probability of
- * 50 will trigger the module only half of the times.</dd>
+ * <dd>The probability on 100 with which the listener will be triggered. For example, a probability
+ * of 50 will trigger the listener only half of the times.</dd>
  * <dt>&lt;identifier&gt;.possibleanswers.private.&lt;number&gt;=</dt>
  * <dd>An answer with which the bot can reply to the trigger on a public chat. The number should
  * start at 1 and be increased for each possible answer. You can use <b>{sender}</b> to use the name
- * of the person who triggered the module.</dd>
+ * of the person who triggered the listener.</dd>
  * <dt>&lt;identifier&gt;.possibleanswers.action.&lt;number&gt;=</dt>
  * <dd>An action that the bot can use to reply to the trigger. The number should start at 1 and be
  * increased for each possible answer. You can use <b>{sender}</b> to use the name of the person who
- * triggered the module.</dd>
+ * triggered the listener.</dd>
  * </dl>
- * 
+ *
  * Example of an action file:
- * 
+ *
  * <pre>
  * poke.triggermessages.1=^pokes {botname}$
  * poke.triggermessages.2=^sends a poke to {botname}$
@@ -90,7 +90,7 @@ import org.slf4j.LoggerFactory;
  * poke.possibleanswers.action.1=giggles
  * poke.possibleanswers.action.2=pokes {sender} harder!
  * </pre>
- * 
+ *
  * @author Emmanuel Cron
  */
 public class OnActionListener extends ListenerAdapter<PircBotX> {
@@ -102,8 +102,8 @@ public class OnActionListener extends ListenerAdapter<PircBotX> {
       new HashMap<OnActionPattern, OnActionAnswers>();
 
   /**
-   * Creates a new on action module.
-   * 
+   * Creates a new on action listener.
+   *
    * @param actionsPath path related to the context to the action file
    * @param encoding encoding in which the action file is saved
    */

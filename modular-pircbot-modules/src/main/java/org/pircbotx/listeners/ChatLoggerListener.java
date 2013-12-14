@@ -51,7 +51,6 @@ import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.QuitEvent;
 import org.pircbotx.hooks.events.TopicEvent;
 import org.pircbotx.hooks.events.UserModeEvent;
-import org.pircbotx.listeners.StoppableListener;
 import org.pircbotx.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +59,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A module that logs everything that the bot sees (or almost...) into log files on the machine it
+ * A listener that logs everything that the bot sees (or almost...) into log files on the machine it
  * is running. Files are automatically renamed each day to keep one file name per day.
  * <p>
  * Chat events (= things the bot sees) all have a default log format that can be overridden if
@@ -86,7 +85,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
       UserLevel.VOICE, "+");
 
   /**
-   * List of chat messages that are supported by the chat logger module.
+   * List of chat messages that are supported by the chat logger listener.
    * <p>
    * Each chat message has a default log format that may be overridden by a custom value.
    *
@@ -243,7 +242,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
   private boolean checkedFormats;
 
   /**
-   * Creates a new chat logger module.
+   * Creates a new chat logger listener.
    *
    * @param logsPath the folder where to store the chat log files
    * @param charset the charset to use when writing in the log files
@@ -259,7 +258,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
   }
 
   /**
-   * Sets the format to use for one of the {@link ChatLoggerEvent}s supported by this module. The
+   * Sets the format to use for one of the {@link ChatLoggerEvent}s supported by this listener. The
    * given format must contain at least the number of required string replacements of the event
    * (specified by {@link ChatLoggerEvent#getRequiredReplacements()}).
    * <p>

@@ -24,6 +24,8 @@ import com.google.common.collect.ImmutableList;
  * <dt>{helpprivatetrigger}</dt>
  * <dd>Command to send in private chat with the bot to display the help.</dd>
  * </dl>
+ * Beware that sending notices to all users when there is a spike in number of joins to the channel
+ * may disconnect the bot because of flood.
  *
  * @author Emmanuel Cron
  */
@@ -33,12 +35,11 @@ public class WelcomeNoticesListener extends ListenerAdapter<ExtendedPircBotX> {
   private List<String> welcomeNotices;
 
   /**
-   * Creates a new welcome module.
+   * Creates a new welcome listener.
    *
    * @param welcomeNotices the messages to send to a user that connects to a channel where the bot
    *        is connected; special codes used in these messages will be replaced (see class
    *        description)
-   * @param helpTrigger the command that needs to be sent to the bot to display the help
    */
   public WelcomeNoticesListener(List<String> welcomeNotices) {
     this.welcomeNotices = ImmutableList.copyOf(checkNotNull(welcomeNotices));

@@ -25,7 +25,7 @@ public class AuthModeListener extends ListenerAdapter<PircBotX> {
   private Optional<String> modes;
 
   /**
-   * Creates a new AUTH/MODE module that sets the mode but does not authenticate.
+   * Creates a new AUTH/MODE listener that sets the mode but does not authenticate.
    *
    * @param modes the modes to request with the {@code MODE} command; this parameter cannot be
    *        {@code null} or empty
@@ -37,7 +37,7 @@ public class AuthModeListener extends ListenerAdapter<PircBotX> {
   }
 
   /**
-   * Creates a new AUTH/MODE module.
+   * Creates a new AUTH/MODE listener.
    *
    * @param authUsername the user name to user in the {@code AUTH} command
    * @param authPassword the password to user in the {@code AUTH} command

@@ -23,23 +23,23 @@ import com.google.common.base.Strings;
  * of these words is said by a user connected to these channels, he/she is immediately kicked with a
  * custom reason.
  * <p>
- * This module will not kick admins.
- * 
+ * This listener will not kick admins.
+ *
  * <h2>Bad words file format</h2>
  * Bad words must be written in a file containing one bad word per line. If a line starts with '
  * <tt>#</tt>', the line is ignored.
  * <p>
  * Example:
- * 
+ *
  * <pre>
  * # This is the bad words file
  * idiot
  * motherkisser
- * 
+ *
  * # Will be ignored
  * #stupid
  * </pre>
- * 
+ *
  * @author Emmanuel Cron
  */
 public class BadWordsListener extends ListenerAdapter<PircBotX> {
@@ -50,8 +50,8 @@ public class BadWordsListener extends ListenerAdapter<PircBotX> {
   private String kickReason;
 
   /**
-   * Creates a new badwords module.
-   * 
+   * Creates a new badwords listener.
+   *
    * @param badwordsPath path from the root of the classpath to the file containing the bad words;
    *        each word must be on a new line
    * @param encoding the encoding in which the file is stored

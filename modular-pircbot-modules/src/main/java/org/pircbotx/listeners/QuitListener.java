@@ -6,7 +6,6 @@ import org.pircbotx.ExtendedPircBotX;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
-import org.pircbotx.listeners.PrivateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +28,7 @@ public class QuitListener extends ListenerAdapter<PircBotX> implements PrivateLi
   private String quitMessage;
 
   /**
-   * Creates a new quit module.
+   * Creates a new quit listener.
    *
    * @param trigger the message that an admin needs to send to the bot to make it quit
    * @param quitMessage the message displayed to all users when the bot quits; this message can be

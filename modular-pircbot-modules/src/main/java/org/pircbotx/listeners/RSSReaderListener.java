@@ -16,9 +16,6 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
-import org.pircbotx.listeners.PrivateListener;
-import org.pircbotx.listeners.PublicListener;
-import org.pircbotx.listeners.RunnableListener;
 import org.pircbotx.util.URLShortener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,18 +35,18 @@ import com.sun.syndication.io.FeedException;
  * also ask the bot to send the last 3 entries (amount is customizable) as {@code NOTICE} when in a
  * public channel or as a normal message when talking privately to the bot.
  * <p>
- * This module supports the use of an URL shortener service to display smaller messages when
+ * This listener supports the use of an URL shortener service to display smaller messages when
  * announcing new RSS news. If you want to use such a service, call the
  * {@link #setURLShortener(URLShortener)} method.
  * <p>
  * Feeds retrieved from the web are automatically cached in a flat file by the underlying feed
- * fetcher. Additionally, the module is limited to one fetch attempt every given interval (interval
- * set when creating the bot) to avoid spamming the server that hosts it.
+ * fetcher. Additionally, the listener is limited to one fetch attempt every given interval
+ * (interval set when creating the bot) to avoid spamming the server that hosts it.
  *
  * @author Emmanuel Cron
  */
-public class RSSReaderListener extends ListenerAdapter<PircBotX> implements
-    RunnableListener, PublicListener, PrivateListener {
+public class RSSReaderListener extends ListenerAdapter<PircBotX> implements RunnableListener,
+    PublicListener, PrivateListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(RSSReaderListener.class);
 
   private String trigger;
@@ -75,7 +72,7 @@ public class RSSReaderListener extends ListenerAdapter<PircBotX> implements
   private boolean run;
 
   /**
-   * Creates a new RSS reader module.
+   * Creates a new RSS reader listener.
    *
    * @param trigger the word to say in a public or private chat to trigger the display of the last
    *        news; in a public channel, this word must be prefixed by "{@code !}"

@@ -24,7 +24,7 @@ public class JoinOnConnectListener extends ListenerAdapter<PircBotX> {
   private List<String> channels;
 
   /**
-   * Creates a new join on connect module.
+   * Creates a new join on connect listener.
    *
    * @param channels the channels to join when the bot is connected
    */
