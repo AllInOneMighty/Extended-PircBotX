@@ -1,7 +1,7 @@
 Extended-PircBotX
 =================
 
-An extension of PircBotX https://code.google.com/p/pircbotx/) that offers an extended
+An extension of PircBotX (https://code.google.com/p/pircbotx/) that offers an extended
 bot with runnable and triggerable listeners support.
 
 Some basic and "not that basic" listeners are provided in the extended-pirbotx-modules
