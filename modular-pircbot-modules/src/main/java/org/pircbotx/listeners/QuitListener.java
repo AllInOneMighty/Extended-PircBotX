@@ -62,7 +62,7 @@ public class QuitListener extends ListenerAdapter<PircBotX> implements PrivateLi
 
   @Override
   public void onTriggerPrivateMessage(PrivateMessageEvent<ExtendedPircBotX> event) {
-    LOGGER.info("Bot was requested to quit by {}", event.getUser());
+    LOGGER.info("Bot was requested to quit by {}", event.getUser().getNick());
     event.getBot().stopBotReconnect();
 
     if (!Strings.isNullOrEmpty(quitMessage)) {
