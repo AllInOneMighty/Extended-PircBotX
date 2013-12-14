@@ -10,27 +10,33 @@ import org.pircbotx.hooks.events.DisconnectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A special listener that starts and stop runnable listeners when the bot first connects to the
+ * server and shuts them down when it completely disconnects from it.
+ *
+ * @author Emmanuel Cron
+ */
 class ExecuteRunnableListenerAdapter extends ListenerAdapter<ExtendedPircBotX> {
   private static final Logger LOGGER = LoggerFactory
       .getLogger(ExecuteRunnableListenerAdapter.class);
 
   private ThreadGroup threadGroup = new ThreadGroup(getClass().getSimpleName());
 
-  private boolean modulesStarted;
+  private boolean listenersStarted;
 
   @Override
   public void onConnect(ConnectEvent<ExtendedPircBotX> event) {
-    if (!modulesStarted) {
+    if (!listenersStarted) {
       for (Listener<PircBotX> listener : event.getBot().getConfiguration().getListenerManager()
           .getListeners()) {
         if (listener instanceof RunnableListener) {
           RunnableListener runnableListener = (RunnableListener) listener;
           runnableListener.setBot(event.getBot());
-          LOGGER.info("Launching module thread: {}", runnableListener);
+          LOGGER.info("Launching listener thread: {}", runnableListener);
           new Thread(threadGroup, runnableListener).start();
         }
       }
-      modulesStarted = true;
+      listenersStarted = true;
     }
   }
 
@@ -53,7 +59,7 @@ class ExecuteRunnableListenerAdapter extends ListenerAdapter<ExtendedPircBotX> {
     int stopChecks = 0;
     do {
       stopChecks++;
-      // Wait a total of 15s
+      // Wait a maximum of 15s
       try {
         Thread.sleep(5000);
       } catch (InterruptedException ie) {
@@ -62,11 +68,7 @@ class ExecuteRunnableListenerAdapter extends ListenerAdapter<ExtendedPircBotX> {
     } while (stopChecks < 3 && threadGroup.activeCount() > 0);
 
     if (threadGroup.activeCount() > 0) {
-      LOGGER.warn("One or more thread are still running, they will now be killed");
+      LOGGER.warn("One or more thread are still running, they will be killed");
     }
-
-    LOGGER.info("Exiting");
-
-    // System.exit(0);
   }
 }

@@ -14,14 +14,14 @@ import com.google.common.base.Strings;
  * Automatically provides help that users can request by typing a trigger either on a public channel
  * (help will be sent as {@code NOTICE} messages) or in a private chat.
  * <p>
- * The module automatically detects which modules the bot has and adds one line of description for
- * each of them that can be triggered. Additionally, it detects if the user requesting help is an
- * administrator, and hides any module that is op-only to normal users.
+ * The listener automatically detects which listeners the bot has and adds one line of description
+ * for each of them that can be triggered. Additionally, it detects if the user requesting help is
+ * an administrator, and hides any listener that is OP-only to normal users.
  *
  * @author Emmanuel Cron
  */
-public final class HelpListener extends ListenerAdapter<PircBotX> implements
-    PublicListener, PrivateListener {
+public final class HelpListener extends ListenerAdapter<PircBotX> implements PublicListener,
+    PrivateListener {
 
   private String trigger;
 
@@ -30,7 +30,7 @@ public final class HelpListener extends ListenerAdapter<PircBotX> implements
   private String helpText;
 
   /**
-   * Creates a new help module.
+   * Creates a new help listener.
    *
    * @param trigger the trigger users have to say in a public channel (prefixed by "{@code !}") or
    *        in a private chat (not prefixed) to display help
@@ -64,7 +64,7 @@ public final class HelpListener extends ListenerAdapter<PircBotX> implements
   }
 
   @Override
-  public void onTriggerMessage(MessageEvent<? extends  PircBotX> event) {
+  public void onTriggerMessage(MessageEvent<? extends PircBotX> event) {
     ExtendedPircBotX extendedBot = (ExtendedPircBotX) event.getBot();
     if (!Strings.isNullOrEmpty(helpIntro)) {
       event.getUser().send().notice(helpIntro);

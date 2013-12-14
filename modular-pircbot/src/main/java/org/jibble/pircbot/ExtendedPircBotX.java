@@ -22,28 +22,26 @@ import org.pircbotx.hooks.Listener;
 import com.google.common.base.Strings;
 
 /**
- * A modular {@link PircBot} in which you can add modules.
+ * An extended {@link PircBotX} that supports triggerable and runnable listeners.
  * <p>
- * Modules can be made runnable (by extending {@link RunnableListener}) to have them do some
- * background work while the bot is running. The bot will automatically run and stop these modules
- * when it connects to or quits from the IRC server.
+ * Listeners can be made runnable by extending {@link RunnableListener}, so you can make them do
+ * some background work while the bot is running. The bot will automatically run and stop these
+ * listeners when it connects to or completely quits from the IRC server.
  * <p>
- * You can add your modules by calling the {@link #addModule(AbstractPircModule)} method. For
- * example, you can add help support by adding the {@link HelpListener} module to this bot.
+ * Listeners can be made triggerable by extending {@link PrivateListener} and/or
+ * {@link PublicListener} and implementing the appropriate trigger methods. Trigger detection is
+ * automatically handled by the bot.
  * <p>
- * After all modules are added, you can then connect the bot by calling {@link #connect()}. This
- * method automatically retries connections until the bot is connected.
+ * You can use your listeners by adding them to the {@link Configuration} given to the constructor
+ * of this class. For example, you can have help support by adding the {@link HelpListener} to this
+ * bot.
  *
  * @author Emmanuel Cron
  */
 public class ExtendedPircBotX extends PircBotX {
   /**
-   * Creates a new modular {@link PircBot}.
-   *
-   * @param host host name or IP of the server to which connect the bot
-   * @param ports ports that should successively be tried until the bot is connected to the server
-   *        (if the last port is reached, it will retry with the first port)
-   * @param name nick that the bot should be using on the server
+   * Creates a new extended {@link PircBotX} using the given configuration to configure the bot.
+   * This method makes sure runnable and triggerable listeners are correctly detected.
    */
   public ExtendedPircBotX(Configuration<PircBotX> configuration) {
     super(configuration);
@@ -63,12 +61,12 @@ public class ExtendedPircBotX extends PircBotX {
       if (listener instanceof PublicListener) {
         PublicListener publicListener = (PublicListener) listener;
         checkState(!Strings.isNullOrEmpty(publicListener.getTriggerMessage()),
-            "Public module requires a trigger message: %s", listener.getClass().getSimpleName());
+            "Public listener requires a trigger message: %s", listener.getClass().getSimpleName());
       }
       if (listener instanceof PrivateListener) {
         PrivateListener publicListener = (PrivateListener) listener;
         checkState(!Strings.isNullOrEmpty(publicListener.getPrivateTriggerMessage()),
-            "Private module requires a trigger message: %s", listener.getClass().getSimpleName());
+            "Private listener requires a trigger message: %s", listener.getClass().getSimpleName());
       }
     }
   }
@@ -85,14 +83,12 @@ public class ExtendedPircBotX extends PircBotX {
         }
       }
     }
-    // User not found or not op on any channel
+    // User not found or not OP on any channel
     return false;
   }
 
   /**
-   * Returns whether a quit action was requested on the bot by a user.
-   *
-   * @return {@code true} if quit action was requested, {@code false} otherwise
+   * Returns whether the bot will automatically reconnect after a disconnection.
    */
   public final boolean isReconnectStopped() {
     return reconnectStopped;
@@ -100,8 +96,6 @@ public class ExtendedPircBotX extends PircBotX {
 
   /**
    * Returns the trigger used to display the help.
-   *
-   * @return the bot help trigger or {@code null} if none is available
    */
   public String getHelpTrigger() {
     for (Listener<PircBotX> listener : getConfiguration().getListenerManager().getListeners()) {
@@ -115,13 +109,12 @@ public class ExtendedPircBotX extends PircBotX {
 
   /**
    * Builds a list of lines to be sent to the user that gives help information on this bot. The
-   * returned strings are arbitrary. You usually want to give the actions that can be triggered on
-   * the bot, such as "{@code !news}", associated to their description.
+   * returned strings list the actions that can be triggered on the bot, such as "{@code !news}",
+   * associated to their description.
    *
-   * @param nick the nick of the user who requested help to be displayed
+   * @param user user that requested to display the help
    * @param inPrivate {@code true} if the help request was made in a private chat, {@code false} if
    *        it was made on a public channel
-   * @return a list of strings containing the help of this bot
    */
   public List<String> buildHelp(User user, boolean inPrivate) {
     List<String> help = new ArrayList<String>();
@@ -135,7 +128,7 @@ public class ExtendedPircBotX extends PircBotX {
         if (listener instanceof PrivateListener) {
           PrivateListener privateListener = (PrivateListener) listener;
           if (privateListener.isOpRequired() && !isUserOp) {
-            // Module can only be displayed to ops
+            // Listener can only be displayed to ops
             continue;
           }
 
@@ -160,10 +153,10 @@ public class ExtendedPircBotX extends PircBotX {
 
   // internal helpers
 
-  private String buildHelpLine(String trigger, TriggerableListener module) {
-    if (!Strings.isNullOrEmpty(module.getHelpText())) {
+  private String buildHelpLine(String trigger, TriggerableListener listener) {
+    if (!Strings.isNullOrEmpty(listener.getHelpText())) {
       // We suppose commands are never bigger than 20 characters
-      return Strings.padEnd(trigger, 20, ' ') + module.getHelpText();
+      return Strings.padEnd(trigger, 20, ' ') + listener.getHelpText();
     }
     return trigger;
   }

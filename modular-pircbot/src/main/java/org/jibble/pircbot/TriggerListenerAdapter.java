@@ -10,6 +10,12 @@ import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A special listener that calls the trigger methods of {@link PublicListener}s and
+ * {@link PrivateListener}s if their associated triggers are seen in a public or private chat.
+ *
+ * @author Emmanuel Cron
+ */
 class TriggerListenerAdapter extends ListenerAdapter<ExtendedPircBotX> {
   private static final Logger LOGGER = LoggerFactory.getLogger(TriggerListenerAdapter.class);
 
@@ -47,7 +53,7 @@ class TriggerListenerAdapter extends ListenerAdapter<ExtendedPircBotX> {
 
             if (!isSenderOp) {
               // Op required but user not op, skipping
-              LOGGER.info("User {} cannot trigger {} module because he/she is not op", event
+              LOGGER.info("User {} cannot trigger {} listener because he/she is not op", event
                   .getUser().getNick(), listener.getClass());
               continue;
             }
