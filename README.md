@@ -1,14 +1,14 @@
-Modular-PircBot
-===============
+Extended-PircBotX
+=================
 
-An extension of PircBot (http://www.jibble.org/pircbot.php/) that offers a framework
-in which you can add your own modules.
+An extension of PircBotX https://code.google.com/p/pircbotx/) that offers an extended
+bot with runnable and triggerable listeners support.
 
-Some basic and "not that basic" modules are provided in the modular-pirbot-modules
-project. You can use one, several or all modules in your own bot, depending on your
-needs. As a starting point, you may want to give a look at the AuthMode,
-JoinOnServerResponse and Quit modules.
+Some basic and "not that basic" listeners are provided in the extended-pirbotx-modules
+project. You can use one, several or all listeners in your own bot, depending on your
+needs. As a starting point, you may want to give a look at the AuthModeListener,
+JoinOnServerResponseListener and QuitListener modules.
 
 This project is fully documented; you should give a close look to the provided
-modules to understand how they work. Please check the <a href="https://github.com/Bhasmithal/Modular-PircBot/wiki/">wiki</a> for additional
+listeners to understand how they work. Please check the <a href="https://github.com/Bhasmithal/Extended-PircBotX/wiki/">wiki</a> for additional
 information.
