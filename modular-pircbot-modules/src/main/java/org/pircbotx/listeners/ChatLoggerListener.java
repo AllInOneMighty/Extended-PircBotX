@@ -475,6 +475,11 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
   }
 
   private String getUserPrefix(Channel channel, User user) {
+    if (!user.getChannels().contains(channel)) {
+      // No more on this channel
+      return "";
+    }
+
     Set<UserLevel> userLevels = user.getUserLevels(channel);
     if (userLevels.size() > 0) {
       for (Entry<UserLevel, String> entry : USER_LEVEL_PREFIXES.entrySet()) {
