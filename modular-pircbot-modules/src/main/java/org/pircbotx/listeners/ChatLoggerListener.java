@@ -139,7 +139,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
      * {prefix}{nick} ({login}@{host} has left {channel}
      * </pre>
      */
-    PART("* %s%s (%s@%s) has left %s"),
+    PART("* %s (%s@%s) has left %s"),
     /**
      * When someone is kicked from a channel.
      *
@@ -358,9 +358,8 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
 
   @Override
   public void onPart(PartEvent<PircBotX> event) {
-    log(event.getChannel(), PART, getUserPrefix(event.getChannel(), event.getUser()), event
-        .getUser().getNick(), event.getUser().getLogin(), event.getUser().getHostmask(), event
-        .getChannel().getName());
+    log(event.getChannel(), PART, event.getUser().getNick(), event.getUser().getLogin(), event
+        .getUser().getHostmask(), event.getChannel().getName());
   }
 
   @Override
