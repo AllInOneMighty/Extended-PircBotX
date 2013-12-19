@@ -1,4 +1,4 @@
-package org.jibble.pircbot.modules.onaction;
+package org.jibble.pircbot.listeners.onaction;
 
 import static org.junit.Assert.assertTrue;
 
