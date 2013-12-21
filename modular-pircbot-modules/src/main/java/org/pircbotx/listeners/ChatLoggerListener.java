@@ -419,7 +419,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
   @Override
   public void onAction(ActionEvent<PircBotX> event) {
     log(event.getChannel(), ACTION, getUserPrefix(event.getChannel(), event.getUser()),
-        event.getUser(), event.getAction());
+        event.getUser().getNick(), event.getAction());
   }
 
   // internal helpers
