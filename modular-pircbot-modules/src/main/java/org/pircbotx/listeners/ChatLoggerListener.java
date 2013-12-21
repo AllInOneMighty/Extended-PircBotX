@@ -206,7 +206,7 @@ public class ChatLoggerListener extends ListenerAdapter<PircBotX> implements
      * {prefix}{nick} {action}
      * </pre>
      */
-    ACTION("%s%s %s");
+    ACTION("* %s%s %s");
 
     private String defaultFormat;
 
