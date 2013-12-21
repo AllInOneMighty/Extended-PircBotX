@@ -1,4 +1,4 @@
-package org.jibble.pircbot.util;
+package org.jibble.pircbot.util.urlshorteners;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,7 @@ import org.pircbotx.util.urlshorteners.SharasURLShortener;
 
 import com.google.common.base.Optional;
 
-public class SharaURLShortenerTest {
+public class SharasURLShortenerTest {
   private static final String CACHE_FOLDER = "target/cache";
 
   @BeforeClass

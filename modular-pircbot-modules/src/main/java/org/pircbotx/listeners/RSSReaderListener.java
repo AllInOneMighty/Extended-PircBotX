@@ -16,7 +16,7 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
-import org.pircbotx.util.URLShortener;
+import org.pircbotx.util.urlshorteners.URLShortener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package org.pircbotx.util;
+package org.pircbotx.util.urlshorteners;
 
 import java.io.IOException;
 
