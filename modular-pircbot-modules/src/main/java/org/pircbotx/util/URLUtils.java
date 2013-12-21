@@ -1,5 +1,7 @@
 package org.pircbotx.util;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +11,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.net.InternetDomainName;
 
 /**
  * Provides simple utility methods to parse query parameters of a URL.
@@ -66,5 +69,45 @@ public final class URLUtils {
       return "";
     }
     return queryParams.get(queryParam).get(0);
+  }
+
+  /**
+   * Transforms the given {@link URI} into a public HTTP {@link URL} if possible. A public HTTP URL
+   * contains a HTTP scheme ({@code http} or {@code https}) and a valid domain name (e.g. '
+   * {@code blah}' is not a valid domain name).
+   *
+   * @return the public HTTP URL, or {@code null} if it could not be converted
+   */
+  public static URL toPublicHTTPURL(URI uri) {
+    // Contains the string to convert to an URL
+    String urlString;
+
+    String scheme = uri.getScheme();
+    if (!Strings.isNullOrEmpty(scheme)) {
+      if (!scheme.equalsIgnoreCase("http") && !scheme.equalsIgnoreCase("https")) {
+        // Not an http[s] link
+        return null;
+      }
+      urlString = uri.toString();
+    } else {
+      // Trying with http
+      urlString = "http://" + uri.toString();
+    }
+
+    URL url;
+    try {
+      url = new URL(urlString);
+    } catch (MalformedURLException e) {
+      // Not an URL, skipping
+      return null;
+    }
+
+    InternetDomainName domainName = InternetDomainName.from(url.getHost());
+    if (domainName.isPublicSuffix() || !domainName.hasPublicSuffix()) {
+      // Just a suffix or not a valid public URL
+      return null;
+    }
+
+    return url;
   }
 }

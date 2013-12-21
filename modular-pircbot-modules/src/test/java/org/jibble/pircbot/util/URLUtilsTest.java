@@ -2,9 +2,12 @@ package org.jibble.pircbot.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -58,5 +61,20 @@ public class URLUtilsTest {
     assertEquals(2, queryParams.get("t").size());
     assertEquals("32", queryParams.get("t").get(0));
     assertEquals("4fghh6", queryParams.get("t").get(1));
+  }
+
+  @Test
+  public void toPublicHTTPURL() throws MalformedURLException, URISyntaxException {
+    assertEquals(new URL("http://youtube.com"), URLUtils.toPublicHTTPURL(new URI("youtube.com")));
+    assertEquals(new URL("http://youtube.com"), URLUtils.toPublicHTTPURL(new URI("http://youtube.com")));
+    assertEquals(new URL("https://youtube.com"), URLUtils.toPublicHTTPURL(new URI("https://youtube.com")));
+
+    assertEquals(new URL("http://youtu.be/IFOlx-55"),
+        URLUtils.toPublicHTTPURL(new URI("youtu.be/IFOlx-55")));
+    assertEquals(new URL("http://co.uk.damnit.co.uk/index.html"),
+        URLUtils.toPublicHTTPURL(new URI("co.uk.damnit.co.uk/index.html")));
+
+    assertNull(URLUtils.toPublicHTTPURL(new URI("blah")));
+    assertNull(URLUtils.toPublicHTTPURL(new URI("boo.helk")));
   }
 }
