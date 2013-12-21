@@ -76,5 +76,6 @@ public class URLUtilsTest {
 
     assertNull(URLUtils.toPublicHTTPURL(new URI("blah")));
     assertNull(URLUtils.toPublicHTTPURL(new URI("boo.helk")));
+    assertNull(URLUtils.toPublicHTTPURL(new URI("http://l'afficher")));
   }
 }

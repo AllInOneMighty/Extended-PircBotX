@@ -102,6 +102,11 @@ public final class URLUtils {
       return null;
     }
 
+    if (!InternetDomainName.isValid(url.getHost())) {
+      // Invalid domain name
+      return null;
+    }
+
     InternetDomainName domainName = InternetDomainName.from(url.getHost());
     if (domainName.isPublicSuffix() || !domainName.hasPublicSuffix()) {
       // Just a suffix or not a valid public URL
