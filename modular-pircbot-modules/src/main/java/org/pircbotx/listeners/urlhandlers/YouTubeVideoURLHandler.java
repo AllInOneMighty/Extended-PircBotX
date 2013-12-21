@@ -120,8 +120,10 @@ public class YouTubeVideoURLHandler extends VideoURLHandler {
     if (videoEntry.getMediaGroup() != null) {
       videoInfo.setDuration(new Duration(videoEntry.getMediaGroup().getDuration() * 1000));
     }
-    videoInfo.setLikes(videoEntry.getYtRating().getNumLikes());
-    videoInfo.setDislikes(videoEntry.getYtRating().getNumDislikes());
+    if (videoEntry.getYtRating() != null) {
+      videoInfo.setLikes(videoEntry.getYtRating().getNumLikes());
+      videoInfo.setDislikes(videoEntry.getYtRating().getNumDislikes());
+    }
     videoInfo.setViews(videoEntry.getStatistics().getViewCount());
     return videoInfo;
   }
