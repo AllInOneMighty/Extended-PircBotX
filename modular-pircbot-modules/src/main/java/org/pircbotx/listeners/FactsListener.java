@@ -71,7 +71,7 @@ public class FactsListener extends ListenerAdapter<PircBotX> implements PublicLi
     if (facts != null) {
       int fact = RANDOM.nextInt(facts.size());
       for (String line : facts.get(fact)) {
-        event.respond(line);
+        event.getChannel().send().message(line);
       }
     }
   }
