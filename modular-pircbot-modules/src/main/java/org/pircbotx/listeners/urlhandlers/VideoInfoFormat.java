@@ -30,48 +30,111 @@ public final class VideoInfoFormat {
     private String dislikes;
     private String views;
 
+    /**
+     * Precedes the video author name.
+     *
+     * <pre>
+     * by {author}
+     * </pre>
+     */
     public Builder setBy(String by) {
-      this.by = checkNotNull(by);
+      this.by = checkNotNull(by).trim();
       return this;
     }
 
+    /**
+     * Precedes the category name.
+     *
+     * <pre>
+     * in {category}
+     * </pre>
+     */
     public Builder setIn(String in) {
-      this.in = checkNotNull(in);
+      this.in = checkNotNull(in).trim();
       return this;
     }
 
+    /**
+     * Precedes the length details of the video. You might want to capitalize the first char.
+     *
+     * <pre>
+     * Length: {length}
+     * </pre>
+     */
     public Builder setLength(String length) {
-      this.length = checkNotNull(length);
+      this.length = checkNotNull(length).trim();
       return this;
     }
 
+    /**
+     * Suffixes the length, in hours, of the video.
+     *
+     * <pre>
+     * {hours} hours
+     * </pre>
+     */
     public Builder setHours(String hours) {
-      this.hours = checkNotNull(hours);
+      this.hours = checkNotNull(hours).trim();
       return this;
     }
 
+    /**
+     * Suffixes the length, in minutes within an hour, of the video.
+     *
+     * <pre>
+     * {minutes} mins
+     * </pre>
+     */
     public Builder setMinutes(String minutes) {
-      this.minutes = checkNotNull(minutes);
+      this.minutes = checkNotNull(minutes).trim();
       return this;
     }
 
+    /**
+     * Suffixes the length, in seconds within a minute, of the video.
+     *
+     * <pre>
+     * {seconds} secs
+     * </pre>
+     */
     public Builder setSeconds(String seconds) {
-      this.seconds = checkNotNull(seconds);
+      this.seconds = checkNotNull(seconds).trim();
       return this;
     }
 
+    /**
+     * Suffixes the number of likes received by the video.
+     *
+     * <pre>
+     * {likes} likes
+     * </pre>
+     */
     public Builder setLikes(String likes) {
-      this.likes = checkNotNull(likes);
+      this.likes = checkNotNull(likes).trim();
       return this;
     }
 
+    /**
+     * Suffixes the number of dislikes received by the video.
+     *
+     * <pre>
+     * {dislikes} dislikes
+     * </pre>
+     */
     public Builder setDislikes(String dislikes) {
-      this.dislikes = checkNotNull(dislikes);
+      this.dislikes = checkNotNull(dislikes).trim();
       return this;
     }
 
+    /**
+     * Suffixes the number of views of the video.
+     *
+     * <pre>
+     * {views} views
+     * </pre>
+     */
     public Builder setViews(String views) {
-      this.views = checkNotNull(views);
+      this.views = checkNotNull(views).trim();
       return this;
     }
 
