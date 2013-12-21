@@ -57,9 +57,11 @@ abstract class VideoURLHandler implements URLHandler {
         videoTitle.append(String.format(" %s %s", duration.getStandardHours(), format.getHours()));
       }
       if (duration.getStandardHours() > 0 || duration.getStandardMinutes() > 0) {
+        duration = duration.minus(duration.toStandardHours().toStandardDuration());
         videoTitle.append(
             String.format(" %s %s", duration.getStandardMinutes(), format.getMinutes()));
       }
+      duration = duration.minus(duration.toStandardMinutes().toStandardDuration());
       videoTitle.append(
           String.format(" %s %s.", duration.getStandardSeconds(), format.getSeconds()));
     }
