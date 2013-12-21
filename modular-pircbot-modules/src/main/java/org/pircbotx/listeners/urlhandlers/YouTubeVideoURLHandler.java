@@ -44,7 +44,9 @@ public class YouTubeVideoURLHandler extends VideoURLHandler {
    * @param readTimeoutMillis millis after which the read attempt is abandoned
    */
   public YouTubeVideoURLHandler(String applicationName, String hl, int connectTimeoutMillis,
-      int readTimeoutMillis) {
+      int readTimeoutMillis, VideoInfoFormat format) {
+    super(format);
+
     checkArgument(!Strings.isNullOrEmpty(applicationName),
         "Application name cannot be null or empty");
     checkArgument(!Strings.isNullOrEmpty(hl), "Language must be provided");

@@ -1,5 +1,7 @@
 package org.pircbotx.listeners.urlhandlers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.net.URL;
 
 import org.joda.time.Duration;
@@ -16,6 +18,11 @@ import com.google.common.base.Strings;
  * @author Emmanuel Cron
  */
 abstract class VideoURLHandler implements URLHandler {
+  private VideoInfoFormat format;
+
+  VideoURLHandler(VideoInfoFormat format) {
+    this.format = checkNotNull(format);
+  }
 
   @Override
   public final void handle(MessageEvent<PircBotX> event, URL url) {
@@ -37,35 +44,33 @@ abstract class VideoURLHandler implements URLHandler {
   private String buildVideoDescription(VideoInfo videoInfo) {
     StringBuilder videoTitle = new StringBuilder("'" + videoInfo.getTitle() + "'");
     if (!Strings.isNullOrEmpty(videoInfo.getUser())) {
-      videoTitle.append(" by " + videoInfo.getUser());
+      videoTitle.append(String.format(" %s %s", format.getBy(), videoInfo.getUser()));
     }
     if (!Strings.isNullOrEmpty(videoInfo.getCategory())) {
-      videoTitle.append(" in " + videoInfo.getCategory());
+      videoTitle.append(String.format(" %s %s", format.getIn(), videoInfo.getCategory()));
     }
     videoTitle.append(" -");
     if (videoInfo.getDuration() != null) {
-      boolean displayed = false;
+      videoTitle.append(String.format(" %s:", format.getLength()));
       Duration duration = videoInfo.getDuration();
       if (duration.getStandardHours() > 0) {
-        videoTitle.append(" " + duration.getStandardHours() + " hours");
-        displayed = true;
+        videoTitle.append(String.format(" %s %s", duration.getStandardHours(), format.getHours()));
       }
-      if (displayed || duration.getStandardMinutes() > 0) {
-        videoTitle.append(" " + duration.getStandardHours() + " mins");
-        displayed = true;
+      if (duration.getStandardHours() > 0 || duration.getStandardMinutes() > 0) {
+        videoTitle.append(
+            String.format(" %s %s", duration.getStandardMinutes(), format.getMinutes()));
       }
-      if (displayed || duration.getStandardSeconds() > 0) {
-        videoTitle.append(" " + duration.getStandardHours() + " secs");
-      }
+      videoTitle.append(
+          String.format(" %s %s.", duration.getStandardSeconds(), format.getSeconds()));
     }
     if (videoInfo.getLikes() > 0) {
-      videoTitle.append(" " + videoInfo.getLikes() + " likes");
+      videoTitle.append(String.format(" %s %s", videoInfo.getLikes(), format.getLikes()));
     }
     if (videoInfo.getDislikes() > 0) {
-      videoTitle.append(" / " + videoInfo.getDislikes() + " dislikes");
+      videoTitle.append(String.format(" / %s %s", videoInfo.getDislikes(), format.getDislikes()));
     }
     if (videoInfo.getViews() > 0) {
-      videoTitle.append(", " + videoInfo.getViews() + " views");
+      videoTitle.append(String.format(", %s %s", videoInfo.getViews(), format.getViews()));
     }
 
     // Removing the dash if that what's left

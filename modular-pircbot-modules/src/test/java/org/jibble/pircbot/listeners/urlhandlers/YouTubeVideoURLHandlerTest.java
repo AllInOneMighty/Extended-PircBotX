@@ -13,6 +13,7 @@ import org.joda.time.Duration;
 import org.junit.Before;
 import org.junit.Test;
 import org.pircbotx.listeners.urlhandlers.VideoInfo;
+import org.pircbotx.listeners.urlhandlers.VideoInfoFormat;
 import org.pircbotx.listeners.urlhandlers.YouTubeVideoURLHandler;
 
 public class YouTubeVideoURLHandlerTest {
@@ -20,7 +21,9 @@ public class YouTubeVideoURLHandlerTest {
 
   @Before
   public void setUp() {
-    handler = new YouTubeVideoURLHandler("HypeBotTest", "fr", 3000, 3000);
+    handler =
+        new YouTubeVideoURLHandler("HypeBotTest", "fr", 3000, 3000,
+            VideoInfoFormat.getDefaultInstance());
   }
 
   @Test
