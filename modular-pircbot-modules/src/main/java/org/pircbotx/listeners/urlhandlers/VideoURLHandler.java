@@ -50,7 +50,13 @@ abstract class VideoURLHandler implements URLHandler {
       videoTitle.append(String.format(" %s %s", format.getIn(), videoInfo.getCategory()));
     }
     videoTitle.append(" -");
-    if (videoInfo.getDuration() != null) {
+
+    if (videoInfo.isOnAir()) {
+      // Live streaming
+      videoTitle.append(String.format(" %s (%s %s)", format.getLive(), videoInfo.getAudience(),
+          format.getViewers()));
+    } else if (videoInfo.getDuration() != null) {
+      // TODO: Handle case when live stream is over; Dailymotion still returns a duration
       videoTitle.append(String.format(" %s:", format.getLength()));
       Duration duration = videoInfo.getDuration();
       if (duration.getStandardHours() > 0) {
@@ -58,28 +64,22 @@ abstract class VideoURLHandler implements URLHandler {
       }
       if (duration.getStandardHours() > 0 || duration.getStandardMinutes() > 0) {
         duration = duration.minus(duration.toStandardHours().toStandardDuration());
-        videoTitle.append(
-            String.format(" %s %s", duration.getStandardMinutes(), format.getMinutes()));
+        videoTitle.append(String.format(" %s %s", duration.getStandardMinutes(),
+            format.getMinutes()));
       }
       duration = duration.minus(duration.toStandardMinutes().toStandardDuration());
-      videoTitle.append(
-          String.format(" %s %s.", duration.getStandardSeconds(), format.getSeconds()));
+      videoTitle
+          .append(String.format(" %s %s.", duration.getStandardSeconds(), format.getSeconds()));
     }
+
     if (videoInfo.getLikes() > 0) {
       videoTitle.append(String.format(" %s %s", videoInfo.getLikes(), format.getLikes()));
     }
     if (videoInfo.getDislikes() > 0) {
       videoTitle.append(String.format(" / %s %s", videoInfo.getDislikes(), format.getDislikes()));
     }
-    if (videoInfo.isOnAir()) {
-      // Live streaming
-      videoTitle.append(String.format(", %s (%s %s)", format.getLive(), videoInfo.getAudience(),
-          format.getViewers()));
-    } else {
-      // Not live streaming
-      if (videoInfo.getViews() > 0) {
-        videoTitle.append(String.format(", %s %s", videoInfo.getViews(), format.getViews()));
-      }
+    if (!videoInfo.isOnAir() && videoInfo.getViews() > 0) {
+      videoTitle.append(String.format(", %s %s", videoInfo.getViews(), format.getViews()));
     }
 
     // Removing the dash if that what's left
