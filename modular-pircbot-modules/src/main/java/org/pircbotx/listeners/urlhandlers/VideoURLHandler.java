@@ -71,8 +71,15 @@ abstract class VideoURLHandler implements URLHandler {
     if (videoInfo.getDislikes() > 0) {
       videoTitle.append(String.format(" / %s %s", videoInfo.getDislikes(), format.getDislikes()));
     }
-    if (videoInfo.getViews() > 0) {
-      videoTitle.append(String.format(", %s %s", videoInfo.getViews(), format.getViews()));
+    if (videoInfo.isOnAir()) {
+      // Live streaming
+      videoTitle.append(String.format(", %s (%s %s)", format.getLive(), videoInfo.getAudience(),
+          format.getViewers()));
+    } else {
+      // Not live streaming
+      if (videoInfo.getViews() > 0) {
+        videoTitle.append(String.format(", %s %s", videoInfo.getViews(), format.getViews()));
+      }
     }
 
     // Removing the dash if that what's left

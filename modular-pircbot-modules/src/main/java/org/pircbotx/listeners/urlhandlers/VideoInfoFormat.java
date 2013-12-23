@@ -18,6 +18,8 @@ public final class VideoInfoFormat {
   private final String likes;
   private final String dislikes;
   private final String views;
+  private final String live;
+  private final String viewers;
 
   public static class Builder {
     private String by;
@@ -29,6 +31,8 @@ public final class VideoInfoFormat {
     private String likes;
     private String dislikes;
     private String views;
+    private String live;
+    private String viewers;
 
     /**
      * Precedes the video author name.
@@ -138,6 +142,30 @@ public final class VideoInfoFormat {
       return this;
     }
 
+    /**
+     * Indicates the video is live (= being streamed). Default value is "{@code LIVE}".
+     *
+     * <pre>
+     * {live}
+     * </pre>
+     */
+    public Builder setLive(String live) {
+      this.live = checkNotNull(live).trim();
+      return this;
+    }
+
+    /**
+     * Suffixes the number of viewers of the video in live streaming.
+     *
+     * <pre>
+     * ({viewers} viewers)
+     * </pre>
+     */
+    public Builder setViewers(String viewers) {
+      this.viewers = checkNotNull(viewers).trim();
+      return this;
+    }
+
     public VideoInfoFormat build() {
       return new VideoInfoFormat(this);
     }
@@ -153,6 +181,8 @@ public final class VideoInfoFormat {
     this.likes = builder.likes != null ? builder.likes : "likes";
     this.dislikes = builder.dislikes != null ? builder.dislikes : "dislikes";
     this.views = builder.views != null ? builder.views : "views";
+    this.live = builder.live != null ? builder.live : "LIVE";
+    this.viewers = builder.viewers != null ? builder.viewers : "viewers";
   }
 
   public static VideoInfoFormat getDefaultInstance() {
@@ -194,5 +224,13 @@ public final class VideoInfoFormat {
 
   public String getViews() {
     return views;
+  }
+
+  public String getLive() {
+    return live;
+  }
+
+  public String getViewers() {
+    return viewers;
   }
 }
