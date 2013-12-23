@@ -15,6 +15,7 @@ import com.google.common.base.Strings;
  * @author Emmanuel Cron
  */
 public class VideoInfo {
+  private String id;
   private URL url;
   private String title;
   private String user;
@@ -23,6 +24,8 @@ public class VideoInfo {
   private int likes;
   private int dislikes;
   private long views;
+  private boolean onAir;
+  private long audience;
 
   public VideoInfo(URL url, String title) {
     checkArgument(!Strings.isNullOrEmpty(title));
@@ -40,6 +43,18 @@ public class VideoInfo {
    */
   public String getTitle() {
     return title;
+  }
+
+  protected void setId(String id) {
+    checkArgument(!Strings.isNullOrEmpty(id));
+    this.id = id;
+  }
+
+  /**
+   * Returns the id of this video as a resource that can be used on an API.
+   */
+  public String getId() {
+    return id;
   }
 
   protected void setUser(String user) {
@@ -111,5 +126,27 @@ public class VideoInfo {
    */
   public long getViews() {
     return views;
+  }
+
+  protected void setOnAir(boolean onAir) {
+    this.onAir = onAir;
+  }
+
+  /**
+   * If this video is currently being streamed lived on the web.
+   */
+  public boolean isOnAir() {
+    return onAir;
+  }
+
+  protected void setAudience(long audience) {
+    this.audience = audience;
+  }
+
+  /**
+   * If this video {@link #isOnAir()}, returns the current number of viewers.
+   */
+  public long getAudience() {
+    return audience;
   }
 }
