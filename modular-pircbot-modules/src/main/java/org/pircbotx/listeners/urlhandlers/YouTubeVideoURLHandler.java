@@ -67,6 +67,7 @@ public class YouTubeVideoURLHandler extends VideoURLHandler {
 
   @Override
   public boolean matches(URL url) {
+    // www.youtu.be is a wrong URL, so ignoring it
     if (YOUTU_BE.equalsIgnoreCase(url.getHost())) {
       return true;
     }
@@ -101,11 +102,12 @@ public class YouTubeVideoURLHandler extends VideoURLHandler {
     URL videoUrl;
     try {
       videoUrl = new URL(String.format(YOUTUBE_SHORT_URL, videoId));
-    } catch (MalformedURLException murle) {
-      LOGGER.error("Could not format short YouTube URL with video id, ignoring", murle);
+    } catch (MalformedURLException e) {
+      LOGGER.error("Could not format short YouTube URL with video id, ignoring", e);
       return null;
     }
     VideoInfo videoInfo = new VideoInfo(videoUrl, videoEntry.getTitle().getPlainText());
+    videoInfo.setId(videoId);
     if (videoEntry.getAuthors().size() > 0) {
       videoInfo.setUser(videoEntry.getAuthors().get(0).getName());
     }
