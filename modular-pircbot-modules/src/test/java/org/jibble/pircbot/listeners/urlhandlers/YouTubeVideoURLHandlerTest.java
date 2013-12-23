@@ -37,6 +37,8 @@ public class YouTubeVideoURLHandlerTest {
     assertTrue(handler.matches(new URL("http://youtu.be/v/efw6588")));
     assertFalse(handler.matches(new URL("http://www.youtu.be")));
     assertFalse(handler.matches(new URL("https://www.youtu.be")));
+
+    assertFalse(handler.matches(new URL("http://www.godizilla.com")));
   }
 
   @Test
@@ -50,6 +52,7 @@ public class YouTubeVideoURLHandlerTest {
     VideoInfo videoInfo0 =
         handler.retrieveVideoInfo(new URL("http://youtube.com/watch?v=ZOf7Jb5Ylg8"));
     assertNotNull(videoInfo0);
+    assertEquals("ZOf7Jb5Ylg8", videoInfo0.getId());
     assertEquals(new URL("http://youtu.be/ZOf7Jb5Ylg8"), videoInfo0.getUrl());
     assertEquals("BlizzCon 2013: On a retrouvé l'épouse du Roi Liche !", videoInfo0.getTitle());
     assertEquals("JudgeHype", videoInfo0.getUser());
@@ -58,22 +61,27 @@ public class YouTubeVideoURLHandlerTest {
     assertTrue(videoInfo0.getLikes() > 10);
     assertTrue(videoInfo0.getDislikes() >= 0);
     assertTrue(videoInfo0.getViews() >= 12229);
+    assertFalse(videoInfo0.isOnAir());
 
     VideoInfo videoInfo1 =
         handler.retrieveVideoInfo(new URL("http://www.youtube.com/v/_6Ogb7FWr1A"));
     assertNotNull(videoInfo1);
+    assertEquals("_6Ogb7FWr1A", videoInfo1.getId());
     assertEquals(new URL("http://youtu.be/_6Ogb7FWr1A"), videoInfo1.getUrl());
-    assertEquals("World of Warcraft - PTR 5.4.2: Monture Saccage ciel de Fer (Iron Skyreaver)", videoInfo1.getTitle());
+    assertEquals("World of Warcraft - PTR 5.4.2: Monture Saccage ciel de Fer (Iron Skyreaver)",
+        videoInfo1.getTitle());
     assertEquals("JudgeHype", videoInfo1.getUser());
     assertEquals("Jeux vidéo et autres", videoInfo1.getCategory());
     assertEquals(new Duration(58000L), videoInfo1.getDuration());
     assertTrue(videoInfo1.getLikes() > 5);
     assertTrue(videoInfo1.getDislikes() >= 0);
     assertTrue(videoInfo1.getViews() >= 4212);
+    assertFalse(videoInfo1.isOnAir());
 
     VideoInfo videoInfo2 =
         handler.retrieveVideoInfo(new URL("http://www.youtube.com/watch?v=hfecYn-UEQg"));
     assertNotNull(videoInfo2);
+    assertEquals("hfecYn-UEQg", videoInfo2.getId());
     assertEquals(new URL("http://youtu.be/hfecYn-UEQg"), videoInfo2.getUrl());
     assertEquals("Heroes of the Storm : Scènes de gameplay (BlizzCon 2013)", videoInfo2.getTitle());
     assertEquals("JudgeHype", videoInfo2.getUser());
@@ -82,5 +90,6 @@ public class YouTubeVideoURLHandlerTest {
     assertTrue(videoInfo2.getLikes() > 20);
     assertTrue(videoInfo2.getDislikes() >= 0);
     assertTrue(videoInfo2.getViews() >= 8373);
+    assertFalse(videoInfo2.isOnAir());
   }
 }

@@ -42,6 +42,7 @@ public class YouTubeVideoURLHandler extends VideoURLHandler {
    * @param hl the language in which retrieve categories in {@code ISO-639-1} format
    * @param connectTimeoutMillis millis after which the connection attempt is abandoned
    * @param readTimeoutMillis millis after which the read attempt is abandoned
+   * @param format format to use when displaying video information on a channel
    */
   public YouTubeVideoURLHandler(String applicationName, String hl, int connectTimeoutMillis,
       int readTimeoutMillis, VideoInfoFormat format) {
