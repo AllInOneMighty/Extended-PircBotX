@@ -17,17 +17,17 @@ import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.util.urlshorteners.URLShortener;
+import org.rometools.fetcher.FeedFetcher;
+import org.rometools.fetcher.FetcherException;
+import org.rometools.fetcher.impl.DiskFeedInfoCache;
+import org.rometools.fetcher.impl.FeedFetcherCache;
+import org.rometools.fetcher.impl.HttpURLFeedFetcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.fetcher.FeedFetcher;
-import com.sun.syndication.fetcher.FetcherException;
-import com.sun.syndication.fetcher.impl.DiskFeedInfoCache;
-import com.sun.syndication.fetcher.impl.FeedFetcherCache;
-import com.sun.syndication.fetcher.impl.HttpURLFeedFetcher;
 import com.sun.syndication.io.FeedException;
 
 /**
